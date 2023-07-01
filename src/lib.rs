@@ -80,25 +80,25 @@
 //! ```
 //! use parse_wiki_text::{Configuration, Node};
 //! let wiki_text = concat!(
-//!     "==Our values==\n",
-//!     "*Correctness\n",
-//!     "*Speed\n",
-//!     "*Ergonomics"
+//!	 "==Our values==\n",
+//!	 "*Correctness\n",
+//!	 "*Speed\n",
+//!	 "*Ergonomics"
 //! );
 //! let result = Configuration::default().parse(wiki_text);
 //! assert!(result.warnings.is_empty());
 //! # let mut found = false;
 //! for node in result.nodes {
-//!     if let Node::UnorderedList { items, .. } = node {
-//!         println!("Our values are:");
-//!         for item in items {
-//!             println!("- {}", item.nodes.iter().map(|node| match node {
-//!                 Node::Text { value, .. } => value,
-//!                 _ => ""
-//!             }).collect::<String>());
-//! #           found = true;
-//!         }
-//!     }
+//!	 if let Node::UnorderedList { items, .. } = node {
+//!		 println!("Our values are:");
+//!		 for item in items {
+//!			 println!("- {}", item.nodes.iter().map(|node| match node {
+//!				 Node::Text { value, .. } => value,
+//!				 _ => ""
+//!			 }).collect::<String>());
+//! #		   found = true;
+//!		 }
+//!	 }
 //! }
 //! # assert!(found);
 //! ```
@@ -133,8 +133,8 @@ pub use configuration::ConfigurationSource;
 use configuration::Namespace;
 use state::{OpenNode, OpenNodeType, State};
 use std::{
-    borrow::Cow,
-    collections::{HashMap, HashSet},
+	borrow::Cow,
+	collections::{HashMap, HashSet},
 };
 use trie::Trie;
 pub use warning::{Warning, WarningMessage};
@@ -143,462 +143,462 @@ pub use warning::{Warning, WarningMessage};
 ///
 /// A configuration to correctly parse a real wiki can be created with `Configuration::new`. A configuration for testing and quick and dirty prototyping can be created with `Default::default`.
 pub struct Configuration {
-    character_entities: Trie<char>,
-    link_trail_character_set: HashSet<char>,
-    magic_words: Trie<()>,
-    namespaces: Trie<Namespace>,
-    protocols: Trie<()>,
-    redirect_magic_words: Trie<()>,
-    tag_name_map: HashMap<String, TagClass>,
+	character_entities: Trie<char>,
+	link_trail_character_set: HashSet<char>,
+	magic_words: Trie<()>,
+	namespaces: Trie<Namespace>,
+	protocols: Trie<()>,
+	redirect_magic_words: Trie<()>,
+	tag_name_map: HashMap<String, TagClass>,
 }
 
 /// List item of a definition list.
 #[derive(Debug)]
 pub struct DefinitionListItem<'a> {
-    /// The byte position in the wiki text where the element ends.
-    pub end: usize,
+	/// The byte position in the wiki text where the element ends.
+	pub end: usize,
 
-    /// The content of the element.
-    pub nodes: Vec<Node<'a>>,
+	/// The content of the element.
+	pub nodes: Vec<Node<'a>>,
 
-    /// The byte position in the wiki text where the element starts.
-    pub start: usize,
+	/// The byte position in the wiki text where the element starts.
+	pub start: usize,
 
-    /// The type of list item.
-    pub type_: DefinitionListItemType,
+	/// The type of list item.
+	pub type_: DefinitionListItemType,
 }
 
 /// Identifier for the type of a definition list item.
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum DefinitionListItemType {
-    /// Parsed from the code `:`.
-    Details,
+	/// Parsed from the code `:`.
+	Details,
 
-    /// Parsed from the code `;`.
-    Term,
+	/// Parsed from the code `;`.
+	Term,
 }
 
 /// List item of an ordered list or unordered list.
 #[derive(Debug)]
 pub struct ListItem<'a> {
-    /// The byte position in the wiki text where the element ends.
-    pub end: usize,
+	/// The byte position in the wiki text where the element ends.
+	pub end: usize,
 
-    /// The content of the element.
-    pub nodes: Vec<Node<'a>>,
+	/// The content of the element.
+	pub nodes: Vec<Node<'a>>,
 
-    /// The byte position in the wiki text where the element starts.
-    pub start: usize,
+	/// The byte position in the wiki text where the element starts.
+	pub start: usize,
 }
 
 /// Parsed node.
 #[derive(Debug)]
 pub enum Node<'a> {
-    /// Toggle bold text. Parsed from the code `'''`.
-    Bold {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
-
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
-
-    /// Toggle bold and italic text. Parsed from the code `'''''`.
-    BoldItalic {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
-
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
-
-    /// Category. Parsed from code starting with `[[`, a category namespace and `:`.
-    Category {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
-
-        /// Additional information for sorting entries on the category page, if any.
-        ordinal: Vec<Node<'a>>,
-
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-
-        /// The category referred to.
-        target: &'a str,
-    },
-
-    /// Character entity. Parsed from code starting with `&` and ending with `;`.
-    CharacterEntity {
-        /// The character represented.
-        character: char,
-
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
-
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
-
-    /// Comment. Parsed from code starting with `<!--`.
-    Comment {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
-
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
-
-    /// Definition list. Parsed from code starting with `:` or `;`.
-    DefinitionList {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
-
-        /// The list items of the list.
-        items: Vec<DefinitionListItem<'a>>,
-
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
-
-    /// End tag. Parsed from code starting with `</` and a valid tag name.
-    EndTag {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
-
-        /// The tag name.
-        name: Cow<'a, str>,
-
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
-
-    /// External link. Parsed from code starting with `[` and a valid protocol.
-    ExternalLink {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
-
-        /// The content of the element.
-        nodes: Vec<Node<'a>>,
-
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
-
-    /// Heading. Parsed from code starting with `=` and ending with `=`.
-    Heading {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
-
-        /// The level of the heading from 1 to 6.
-        level: u8,
-
-        /// The content of the element.
-        nodes: Vec<Node<'a>>,
-
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
+	/// Toggle bold text. Parsed from the code `'''`.
+	Bold {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
+
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
+
+	/// Toggle bold and italic text. Parsed from the code `'''''`.
+	BoldItalic {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
+
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
+
+	/// Category. Parsed from code starting with `[[`, a category namespace and `:`.
+	Category {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
+
+		/// Additional information for sorting entries on the category page, if any.
+		ordinal: Vec<Node<'a>>,
+
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+
+		/// The category referred to.
+		target: &'a str,
+	},
+
+	/// Character entity. Parsed from code starting with `&` and ending with `;`.
+	CharacterEntity {
+		/// The character represented.
+		character: char,
+
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
+
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
+
+	/// Comment. Parsed from code starting with `<!--`.
+	Comment {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
+
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
+
+	/// Definition list. Parsed from code starting with `:` or `;`.
+	DefinitionList {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
+
+		/// The list items of the list.
+		items: Vec<DefinitionListItem<'a>>,
+
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
+
+	/// End tag. Parsed from code starting with `</` and a valid tag name.
+	EndTag {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
+
+		/// The tag name.
+		name: Cow<'a, str>,
+
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
+
+	/// External link. Parsed from code starting with `[` and a valid protocol.
+	ExternalLink {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
+
+		/// The content of the element.
+		nodes: Vec<Node<'a>>,
+
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
+
+	/// Heading. Parsed from code starting with `=` and ending with `=`.
+	Heading {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
+
+		/// The level of the heading from 1 to 6.
+		level: u8,
+
+		/// The content of the element.
+		nodes: Vec<Node<'a>>,
+
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
 
-    /// Horizontal divider. Parsed from code starting with `----`.
-    HorizontalDivider {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
-
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
-
-    /// Image. Parsed from code starting with `[[`, a file namespace and `:`.
-    Image {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
+	/// Horizontal divider. Parsed from code starting with `----`.
+	HorizontalDivider {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
+
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
+
+	/// Image. Parsed from code starting with `[[`, a file namespace and `:`.
+	Image {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
 
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-
-        /// The file name of the image.
-        target: &'a str,
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+
+		/// The file name of the image.
+		target: &'a str,
 
-        /// Additional information for the image.
-        text: Vec<Node<'a>>,
-    },
+		/// Additional information for the image.
+		text: Vec<Node<'a>>,
+	},
 
-    /// Toggle italic text. Parsed from the code `''`.
-    Italic {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
-
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
-
-    /// Link. Parsed from code starting with `[[` and ending with `]]`.
-    Link {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
+	/// Toggle italic text. Parsed from the code `''`.
+	Italic {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
+
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
+
+	/// Link. Parsed from code starting with `[[` and ending with `]]`.
+	Link {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
 
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
 
-        /// The target of the link.
-        target: &'a str,
+		/// The target of the link.
+		target: &'a str,
 
-        /// The text to display for the link.
-        text: Vec<Node<'a>>,
-    },
+		/// The text to display for the link.
+		text: Vec<Node<'a>>,
+	},
 
-    /// Magic word. Parsed from the code `__`, a valid magic word and `__`.
-    MagicWord {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
+	/// Magic word. Parsed from the code `__`, a valid magic word and `__`.
+	MagicWord {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
 
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
 
-    /// Ordered list. Parsed from code starting with `#`.
-    OrderedList {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
+	/// Ordered list. Parsed from code starting with `#`.
+	OrderedList {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
 
-        /// The list items of the list.
-        items: Vec<ListItem<'a>>,
+		/// The list items of the list.
+		items: Vec<ListItem<'a>>,
 
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
 
-    /// Paragraph break. Parsed from an empty line between elements that can appear within a paragraph.
-    ParagraphBreak {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
+	/// Paragraph break. Parsed from an empty line between elements that can appear within a paragraph.
+	ParagraphBreak {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
 
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
 
-    /// Parameter. Parsed from code starting with `{{{` and ending with `}}}`.
-    Parameter {
-        /// The default value of the parameter.
-        default: Option<Vec<Node<'a>>>,
+	/// Parameter. Parsed from code starting with `{{{` and ending with `}}}`.
+	Parameter {
+		/// The default value of the parameter.
+		default: Option<Vec<Node<'a>>>,
 
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
 
-        /// The name of the parameter.
-        name: Vec<Node<'a>>,
+		/// The name of the parameter.
+		name: Vec<Node<'a>>,
 
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
 
-    /// Block of preformatted text. Parsed from code starting with a space at the beginning of a line.
-    Preformatted {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
+	/// Block of preformatted text. Parsed from code starting with a space at the beginning of a line.
+	Preformatted {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
 
-        /// The content of the element.
-        nodes: Vec<Node<'a>>,
+		/// The content of the element.
+		nodes: Vec<Node<'a>>,
 
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
 
-    /// Redirect. Parsed at the start of the wiki text from code starting with `#` followed by a redirect magic word.
-    Redirect {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
+	/// Redirect. Parsed at the start of the wiki text from code starting with `#` followed by a redirect magic word.
+	Redirect {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
 
-        /// The target of the redirect.
-        target: &'a str,
+		/// The target of the redirect.
+		target: &'a str,
 
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
 
-    /// Start tag. Parsed from code starting with `<` and a valid tag name.
-    StartTag {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
+	/// Start tag. Parsed from code starting with `<` and a valid tag name.
+	StartTag {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
 
-        /// The tag name.
-        name: Cow<'a, str>,
+		/// The tag name.
+		name: Cow<'a, str>,
 
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
 
-    /// Table. Parsed from code starting with `{|`.
-    Table {
-        /// The HTML attributes of the element.
-        attributes: Vec<Node<'a>>,
+	/// Table. Parsed from code starting with `{|`.
+	Table {
+		/// The HTML attributes of the element.
+		attributes: Vec<Node<'a>>,
 
-        /// The captions of the table.
-        captions: Vec<TableCaption<'a>>,
+		/// The captions of the table.
+		captions: Vec<TableCaption<'a>>,
 
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
 
-        /// The rows of the table.
-        rows: Vec<TableRow<'a>>,
+		/// The rows of the table.
+		rows: Vec<TableRow<'a>>,
 
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
 
-    /// Extension tag. Parsed from code starting with `<` and the tag name of a valid extension tag.
-    Tag {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
+	/// Extension tag. Parsed from code starting with `<` and the tag name of a valid extension tag.
+	Tag {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
 
-        /// The tag name.
-        name: Cow<'a, str>,
+		/// The tag name.
+		name: Cow<'a, str>,
 
-        /// The content of the tag, between the start tag and the end tag, if any.
-        nodes: Vec<Node<'a>>,
+		/// The content of the tag, between the start tag and the end tag, if any.
+		nodes: Vec<Node<'a>>,
 
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
 
-    /// Template. Parsed from code starting with `{{` and ending with `}}`.
-    Template {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
+	/// Template. Parsed from code starting with `{{` and ending with `}}`.
+	Template {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
 
-        /// The name of the template.
-        name: Vec<Node<'a>>,
+		/// The name of the template.
+		name: Vec<Node<'a>>,
 
-        /// The parameters of the template.
-        parameters: Vec<Parameter<'a>>,
+		/// The parameters of the template.
+		parameters: Vec<Parameter<'a>>,
 
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
 
-    /// Plain text.
-    Text {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
+	/// Plain text.
+	Text {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
 
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
 
-        /// The text.
-        value: &'a str,
-    },
+		/// The text.
+		value: &'a str,
+	},
 
-    /// Unordered list. Parsed from code starting with `*`.
-    UnorderedList {
-        /// The byte position in the wiki text where the element ends.
-        end: usize,
+	/// Unordered list. Parsed from code starting with `*`.
+	UnorderedList {
+		/// The byte position in the wiki text where the element ends.
+		end: usize,
 
-        /// The list items of the list.
-        items: Vec<ListItem<'a>>,
+		/// The list items of the list.
+		items: Vec<ListItem<'a>>,
 
-        /// The byte position in the wiki text where the element starts.
-        start: usize,
-    },
+		/// The byte position in the wiki text where the element starts.
+		start: usize,
+	},
 }
 
 /// Output of parsing wiki text.
 #[derive(Debug)]
 pub struct Output<'a> {
-    /// The top level of parsed nodes.
-    pub nodes: Vec<Node<'a>>,
+	/// The top level of parsed nodes.
+	pub nodes: Vec<Node<'a>>,
 
-    /// Warnings from the parser telling that something is not well-formed.
-    pub warnings: Vec<Warning>,
+	/// Warnings from the parser telling that something is not well-formed.
+	pub warnings: Vec<Warning>,
 }
 
 /// Template parameter.
 #[derive(Debug)]
 pub struct Parameter<'a> {
-    /// The byte position in the wiki text where the element ends.
-    pub end: usize,
+	/// The byte position in the wiki text where the element ends.
+	pub end: usize,
 
-    /// The name of the parameter, if any.
-    pub name: Option<Vec<Node<'a>>>,
+	/// The name of the parameter, if any.
+	pub name: Option<Vec<Node<'a>>>,
 
-    /// The byte position in the wiki text where the element starts.
-    pub start: usize,
+	/// The byte position in the wiki text where the element starts.
+	pub start: usize,
 
-    /// The value of the parameter.
-    pub value: Vec<Node<'a>>,
+	/// The value of the parameter.
+	pub value: Vec<Node<'a>>,
 }
 
 /// Element that has a start position and end position.
 pub trait Positioned {
-    /// The byte position in the wiki text where the element ends.
-    fn end(&self) -> usize;
+	/// The byte position in the wiki text where the element ends.
+	fn end(&self) -> usize;
 
-    /// The byte position in the wiki text where the element starts.
-    fn start(&self) -> usize;
+	/// The byte position in the wiki text where the element starts.
+	fn start(&self) -> usize;
 }
 
 #[derive(Copy, Clone, Debug, Eq, Hash, PartialEq)]
 enum TagClass {
-    ExtensionTag,
-    Tag,
+	ExtensionTag,
+	Tag,
 }
 
 /// Table caption.
 #[derive(Debug)]
 pub struct TableCaption<'a> {
-    /// The HTML attributes of the element.
-    pub attributes: Option<Vec<Node<'a>>>,
+	/// The HTML attributes of the element.
+	pub attributes: Option<Vec<Node<'a>>>,
 
-    /// The content of the element.
-    pub content: Vec<Node<'a>>,
+	/// The content of the element.
+	pub content: Vec<Node<'a>>,
 
-    /// The byte position in the wiki text where the element ends.
-    pub end: usize,
+	/// The byte position in the wiki text where the element ends.
+	pub end: usize,
 
-    /// The byte position in the wiki text where the element starts.
-    pub start: usize,
+	/// The byte position in the wiki text where the element starts.
+	pub start: usize,
 }
 
 /// Table cell.
 #[derive(Debug)]
 pub struct TableCell<'a> {
-    /// The HTML attributes of the element.
-    pub attributes: Option<Vec<Node<'a>>>,
+	/// The HTML attributes of the element.
+	pub attributes: Option<Vec<Node<'a>>>,
 
-    /// The content of the element.
-    pub content: Vec<Node<'a>>,
+	/// The content of the element.
+	pub content: Vec<Node<'a>>,
 
-    /// The byte position in the wiki text where the element ends.
-    pub end: usize,
+	/// The byte position in the wiki text where the element ends.
+	pub end: usize,
 
-    /// The byte position in the wiki text where the element starts.
-    pub start: usize,
+	/// The byte position in the wiki text where the element starts.
+	pub start: usize,
 
-    /// The type of cell.
-    pub type_: TableCellType,
+	/// The type of cell.
+	pub type_: TableCellType,
 }
 
 /// Type of table cell.
 #[derive(Copy, Clone, Debug, Eq, Hash, PartialEq)]
 pub enum TableCellType {
-    /// Heading cell.
-    Heading,
+	/// Heading cell.
+	Heading,
 
-    /// Ordinary cell.
-    Ordinary,
+	/// Ordinary cell.
+	Ordinary,
 }
 
 /// Table row.
 #[derive(Debug)]
 pub struct TableRow<'a> {
-    /// The HTML attributes of the element.
-    pub attributes: Vec<Node<'a>>,
+	/// The HTML attributes of the element.
+	pub attributes: Vec<Node<'a>>,
 
-    /// The cells in the row.
-    pub cells: Vec<TableCell<'a>>,
+	/// The cells in the row.
+	pub cells: Vec<TableCell<'a>>,
 
-    /// The byte position in the wiki text where the element ends.
-    pub end: usize,
+	/// The byte position in the wiki text where the element ends.
+	pub end: usize,
 
-    /// The byte position in the wiki text where the element starts.
-    pub start: usize,
+	/// The byte position in the wiki text where the element starts.
+	pub start: usize,
 }
