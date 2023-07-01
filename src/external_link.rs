@@ -30,7 +30,10 @@ pub fn parse_external_link_end_of_line(state: &mut crate::State) {
 	state.rewind(open_node.nodes, open_node.start);
 }
 
-pub fn parse_external_link_start(state: &mut crate::State, configuration: &crate::Configuration) {
+pub fn parse_external_link_start(
+	state: &mut crate::State,
+	configuration: &crate::Configuration,
+) {
 	let scheme_start_position = state.scan_position + 1;
 	match configuration
 		.protocols
@@ -41,7 +44,10 @@ pub fn parse_external_link_start(state: &mut crate::State, configuration: &crate
 			return;
 		}
 		Ok(_) => {
-			state.push_open_node(crate::OpenNodeType::ExternalLink, scheme_start_position);
+			state.push_open_node(
+				crate::OpenNodeType::ExternalLink,
+				scheme_start_position,
+			);
 		}
 	}
 }

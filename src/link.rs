@@ -10,7 +10,8 @@ pub fn parse_link_end<'a>(
 	namespace: Option<crate::Namespace>,
 	target: &'a str,
 ) {
-	let inner_end_position = state.skip_whitespace_backwards(state.scan_position);
+	let inner_end_position =
+		state.skip_whitespace_backwards(state.scan_position);
 	state.flush(inner_end_position);
 	state.scan_position += 2;
 	state.flushed_position = state.scan_position;
@@ -21,7 +22,8 @@ pub fn parse_link_end<'a>(
 		None => {
 			let mut trail_end_position = end;
 			for character in state.wiki_text[end..].chars() {
-				if !configuration.link_trail_character_set.contains(&character) {
+				if !configuration.link_trail_character_set.contains(&character)
+				{
 					break;
 				}
 				trail_end_position += character.len_utf8();
@@ -55,7 +57,10 @@ pub fn parse_link_end<'a>(
 	});
 }
 
-pub fn parse_link_start(state: &mut crate::State, configuration: &crate::Configuration) {
+pub fn parse_link_start(
+	state: &mut crate::State,
+	configuration: &crate::Configuration,
+) {
 	if match state.stack.last() {
 		Some(crate::OpenNode {
 			type_: crate::OpenNodeType::Link { namespace, .. },
@@ -73,7 +78,8 @@ pub fn parse_link_start(state: &mut crate::State, configuration: &crate::Configu
 		return;
 	}
 	let mut target_end_position;
-	let target_start_position = state.skip_whitespace_forwards(state.scan_position + 2);
+	let target_start_position =
+		state.skip_whitespace_forwards(state.scan_position + 2);
 	let namespace = match configuration
 		.namespaces
 		.find(&state.wiki_text[target_start_position..])
@@ -107,7 +113,8 @@ pub fn parse_link_start(state: &mut crate::State, configuration: &crate::Configu
 				state.push_open_node(
 					crate::OpenNodeType::Link {
 						namespace,
-						target: &state.wiki_text[target_start_position..target_end_position],
+						target: &state.wiki_text
+							[target_start_position..target_end_position],
 					},
 					target_end_position + 1,
 				);
@@ -139,20 +146,25 @@ fn parse_end(
 				end: trail_end_position,
 				ordinal: vec![],
 				start: state.scan_position,
-				target: state.wiki_text[target_start_position..target_end_position].trim_end(),
+				target: state.wiki_text
+					[target_start_position..target_end_position]
+					.trim_end(),
 			});
 		}
 		Some(crate::Namespace::File) => {
 			state.nodes.push(crate::Node::Image {
 				end: trail_end_position,
 				start: state.scan_position,
-				target: state.wiki_text[target_start_position..target_end_position].trim_end(),
+				target: state.wiki_text
+					[target_start_position..target_end_position]
+					.trim_end(),
 				text: vec![],
 			});
 		}
 		None => {
 			for character in state.wiki_text[trail_start_position..].chars() {
-				if !configuration.link_trail_character_set.contains(&character) {
+				if !configuration.link_trail_character_set.contains(&character)
+				{
 					break;
 				}
 				trail_end_position += character.len_utf8();
@@ -160,7 +172,8 @@ fn parse_end(
 			let target_text = crate::Node::Text {
 				end: target_end_position,
 				start: target_start_position,
-				value: &state.wiki_text[target_start_position..target_end_position],
+				value: &state.wiki_text
+					[target_start_position..target_end_position],
 			};
 			let text = if trail_end_position > trail_start_position {
 				vec![
@@ -168,7 +181,8 @@ fn parse_end(
 					crate::Node::Text {
 						end: trail_end_position,
 						start: trail_start_position,
-						value: &state.wiki_text[trail_start_position..trail_end_position],
+						value: &state.wiki_text
+							[trail_start_position..trail_end_position],
 					},
 				]
 			} else {
@@ -177,7 +191,9 @@ fn parse_end(
 			state.nodes.push(crate::Node::Link {
 				end: trail_end_position,
 				start: state.scan_position,
-				target: &state.wiki_text[target_start_position..target_end_position].trim_end(),
+				target: &state.wiki_text
+					[target_start_position..target_end_position]
+					.trim_end(),
 				text,
 			});
 		}

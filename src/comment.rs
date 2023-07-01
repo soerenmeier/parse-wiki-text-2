@@ -45,7 +45,8 @@ fn parse_end_tag(
 		match state.get_byte(tag_name_end_position) {
 			None | Some(b'/') | Some(b'<') => return false,
 			Some(b'\t') | Some(b'\n') | Some(b' ') => {
-				let tag_end_position = state.skip_whitespace_forwards(tag_name_end_position + 1);
+				let tag_end_position =
+					state.skip_whitespace_forwards(tag_name_end_position + 1);
 				match state.get_byte(tag_end_position) {
 					Some(b'>') => break tag_end_position,
 					_ => return false,
@@ -55,7 +56,8 @@ fn parse_end_tag(
 			_ => tag_name_end_position += 1,
 		}
 	} + 1;
-	let tag_name = &state.wiki_text[tag_name_start_position..tag_name_end_position];
+	let tag_name =
+		&state.wiki_text[tag_name_start_position..tag_name_end_position];
 	let tag_name = if tag_name.as_bytes().iter().all(u8::is_ascii_lowercase) {
 		crate::Cow::Borrowed(tag_name)
 	} else {
@@ -95,7 +97,8 @@ fn parse_end_tag(
 				let open_node = state.stack.pop().unwrap();
 				state.flushed_position = tag_end_position;
 				state.scan_position = state.flushed_position;
-				let nodes = std::mem::replace(&mut state.nodes, open_node.nodes);
+				let nodes =
+					std::mem::replace(&mut state.nodes, open_node.nodes);
 				state.nodes.push(crate::Node::Tag {
 					end: state.scan_position,
 					name: tag_name,

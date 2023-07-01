@@ -2,7 +2,10 @@
 // This is free software distributed under the terms specified in
 // the file LICENSE at the top-level directory of this distribution.
 
-pub fn parse_magic_word(state: &mut crate::State, configuration: &crate::Configuration) {
+pub fn parse_magic_word(
+	state: &mut crate::State,
+	configuration: &crate::Configuration,
+) {
 	if let Ok((match_length, _)) = configuration
 		.magic_words
 		.find(&state.wiki_text[state.scan_position + 2..])

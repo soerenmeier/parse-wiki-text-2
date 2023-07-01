@@ -11,7 +11,9 @@ pub fn parse_heading_end(state: &mut crate::State) {
 		}
 	}
 	let open_node = state.stack.pop().unwrap();
-	if state.get_byte(end_position - 1) != Some(b'=') || end_position < open_node.start + 3 {
+	if state.get_byte(end_position - 1) != Some(b'=')
+		|| end_position < open_node.start + 3
+	{
 		state.warnings.push(crate::Warning {
 			end: end_position,
 			message: crate::WarningMessage::InvalidHeadingSyntaxRewinding,
@@ -26,12 +28,14 @@ pub fn parse_heading_end(state: &mut crate::State) {
 	};
 	let mut end_level: u8 = 1;
 	while end_level < start_level
-		&& end_position - end_level as usize > open_node.start + end_level as usize + 2
+		&& end_position - end_level as usize
+			> open_node.start + end_level as usize + 2
 		&& state.get_byte(end_position - end_level as usize - 1) == Some(b'=')
 	{
 		end_level += 1;
 	}
-	let position = state.skip_whitespace_backwards(end_position - end_level as usize);
+	let position =
+		state.skip_whitespace_backwards(end_position - end_level as usize);
 	if end_level < start_level {
 		state.warnings.push(crate::Warning {
 			end: end_position,
@@ -51,7 +55,9 @@ pub fn parse_heading_end(state: &mut crate::State) {
 			}
 			Some(_) => true,
 		} {
-			let end = state.skip_whitespace_forwards(open_node.start + start_level as usize);
+			let end = state.skip_whitespace_forwards(
+				open_node.start + start_level as usize,
+			);
 			state.nodes.insert(
 				0,
 				crate::Node::Text {
@@ -76,7 +82,8 @@ pub fn parse_heading_end(state: &mut crate::State) {
 
 pub fn parse_heading_start(state: &mut crate::State) {
 	let mut level = 1;
-	while state.get_byte(state.scan_position + level) == Some(b'=') && level < 6 {
+	while state.get_byte(state.scan_position + level) == Some(b'=') && level < 6
+	{
 		level += 1;
 	}
 	let position = state.skip_whitespace_forwards(state.scan_position + level);

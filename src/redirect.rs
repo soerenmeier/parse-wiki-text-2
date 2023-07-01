@@ -70,7 +70,8 @@ pub fn parse_redirect(
 		state.nodes.push(crate::Node::Redirect {
 			end: position,
 			start: start_position,
-			target: &state.wiki_text[target_start_position..target_end_position],
+			target: &state.wiki_text
+				[target_start_position..target_end_position],
 		});
 		state.flushed_position = state.skip_whitespace_forwards(position);
 		state.scan_position = state.flushed_position;

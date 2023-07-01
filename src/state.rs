@@ -86,7 +86,11 @@ impl<'a> State<'a> {
 		self.wiki_text.as_bytes().get(position).cloned()
 	}
 
-	pub fn push_open_node(&mut self, type_: OpenNodeType<'a>, inner_start_position: usize) {
+	pub fn push_open_node(
+		&mut self,
+		type_: OpenNodeType<'a>,
+		inner_start_position: usize,
+	) {
 		let scan_position = self.scan_position;
 		self.flush(scan_position);
 		self.stack.push(OpenNode {
@@ -151,13 +155,15 @@ pub fn flush<'a>(
 	}
 }
 
-pub fn skip_whitespace_backwards(wiki_text: &str, mut position: usize) -> usize {
+pub fn skip_whitespace_backwards(
+	wiki_text: &str,
+	mut position: usize,
+) -> usize {
 	while position > 0
 		&& match wiki_text.as_bytes()[position - 1] {
 			b'\t' | b'\n' | b' ' => true,
 			_ => false,
-		}
-	{
+		} {
 		position -= 1;
 	}
 	position

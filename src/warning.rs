@@ -76,17 +76,27 @@ impl WarningMessage {
 	/// Human-readable description of the warning.
 	pub fn message(self) -> &'static str {
 		match self {
-			WarningMessage::DefinitionTermContinuation => "List broken by definition term.",
+			WarningMessage::DefinitionTermContinuation => {
+				"List broken by definition term."
+			}
 			WarningMessage::EndTagInComment => "End tag in comment.",
 			WarningMessage::InvalidCharacter => "Invalid character.",
-			WarningMessage::InvalidHeadingSyntaxRewinding => "Invalid heading syntax. Rewinding.",
+			WarningMessage::InvalidHeadingSyntaxRewinding => {
+				"Invalid heading syntax. Rewinding."
+			}
 			WarningMessage::InvalidLinkSyntax => "Invalid link syntax.",
-			WarningMessage::InvalidParameterSyntax => "Invalid parameter syntax.",
+			WarningMessage::InvalidParameterSyntax => {
+				"Invalid parameter syntax."
+			}
 			WarningMessage::InvalidTagSyntax => "Invalid tag syntax.",
-			WarningMessage::MissingEndTagRewinding => "Missing end tag. Rewinding.",
+			WarningMessage::MissingEndTagRewinding => {
+				"Missing end tag. Rewinding."
+			}
 			WarningMessage::RepeatedEmptyLine => "Repeated empty line.",
 			WarningMessage::StrayTextInTable => "Stray text in table.",
-			WarningMessage::TextAfterRedirect => "Wiki text comes after a redirect.",
+			WarningMessage::TextAfterRedirect => {
+				"Wiki text comes after a redirect."
+			}
 			WarningMessage::UnexpectedEndTagRewinding => {
 				"The end tag does not match the last start tag. Rewinding."
 			}
@@ -96,9 +106,15 @@ impl WarningMessage {
 			WarningMessage::UnexpectedHeadingLevelCorrecting => {
 				"Expected heading of higher level. Correcting start of heading."
 			}
-			WarningMessage::UnrecognizedTagName => "A tag with an unrecognized tag name was found.",
-			WarningMessage::UselessTextInParameter => "Useless text in parameter.",
-			WarningMessage::UselessTextInRedirect => "Useless text in redirect.",
+			WarningMessage::UnrecognizedTagName => {
+				"A tag with an unrecognized tag name was found."
+			}
+			WarningMessage::UselessTextInParameter => {
+				"Useless text in parameter."
+			}
+			WarningMessage::UselessTextInRedirect => {
+				"Useless text in redirect."
+			}
 		}
 	}
 }

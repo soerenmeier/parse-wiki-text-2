@@ -2,7 +2,10 @@
 // This is free software distributed under the terms specified in
 // the file LICENSE at the top-level directory of this distribution.
 
-pub fn parse_end_tag(state: &mut crate::State, configuration: &crate::Configuration) {
+pub fn parse_end_tag(
+	state: &mut crate::State,
+	configuration: &crate::Configuration,
+) {
 	let start_position = state.scan_position;
 	let tag_name_start_position = start_position + 2;
 	let mut tag_name_end_position = tag_name_start_position;
@@ -16,7 +19,8 @@ pub fn parse_end_tag(state: &mut crate::State, configuration: &crate::Configurat
 			_ => tag_name_end_position += 1,
 		}
 	}
-	let tag_name = &state.wiki_text[tag_name_start_position..tag_name_end_position];
+	let tag_name =
+		&state.wiki_text[tag_name_start_position..tag_name_end_position];
 	let tag_name = if tag_name.as_bytes().iter().all(u8::is_ascii_lowercase) {
 		crate::Cow::Borrowed(tag_name)
 	} else {
@@ -36,7 +40,9 @@ pub fn parse_end_tag(state: &mut crate::State, configuration: &crate::Configurat
 			loop {
 				match state.get_byte(tag_end_position) {
 					Some(b'>') => break,
-					Some(b'\t') | Some(b'\n') | Some(b' ') => tag_end_position += 1,
+					Some(b'\t') | Some(b'\n') | Some(b' ') => {
+						tag_end_position += 1
+					}
 					_ => {
 						state.scan_position = tag_name_start_position;
 						state.warnings.push(crate::Warning {
@@ -49,8 +55,11 @@ pub fn parse_end_tag(state: &mut crate::State, configuration: &crate::Configurat
 				}
 			}
 			let mut matched_node_index = None;
-			for (open_node_index, open_node) in state.stack.iter().enumerate().rev() {
-				if let crate::OpenNodeType::Tag { name, .. } = &open_node.type_ {
+			for (open_node_index, open_node) in
+				state.stack.iter().enumerate().rev()
+			{
+				if let crate::OpenNodeType::Tag { name, .. } = &open_node.type_
+				{
 					if name == &tag_name {
 						matched_node_index = Some(open_node_index);
 						break;
@@ -70,7 +79,8 @@ pub fn parse_end_tag(state: &mut crate::State, configuration: &crate::Configurat
 					if open_node_index < state.stack.len() - 1 {
 						state.warnings.push(crate::Warning {
 							end: tag_end_position,
-							message: crate::WarningMessage::MissingEndTagRewinding,
+							message:
+								crate::WarningMessage::MissingEndTagRewinding,
 							start: start_position,
 						});
 						state.stack.truncate(open_node_index + 2);
@@ -82,7 +92,10 @@ pub fn parse_end_tag(state: &mut crate::State, configuration: &crate::Configurat
 						tag_end_position += 1;
 						state.flushed_position = tag_end_position;
 						state.scan_position = state.flushed_position;
-						let nodes = std::mem::replace(&mut state.nodes, open_node.nodes);
+						let nodes = std::mem::replace(
+							&mut state.nodes,
+							open_node.nodes,
+						);
 						state.nodes.push(crate::Node::Tag {
 							end: state.scan_position,
 							name: tag_name,
@@ -122,10 +135,14 @@ pub fn parse_end_tag(state: &mut crate::State, configuration: &crate::Configurat
 	}
 }
 
-pub fn parse_start_tag(state: &mut crate::State, configuration: &crate::Configuration) {
+pub fn parse_start_tag(
+	state: &mut crate::State,
+	configuration: &crate::Configuration,
+) {
 	let start_position = state.scan_position;
 	let tag_name_start_position = start_position + 1;
-	let tag_name_end_position = match state.wiki_text.as_bytes()[tag_name_start_position..]
+	let tag_name_end_position = match state.wiki_text.as_bytes()
+		[tag_name_start_position..]
 		.iter()
 		.cloned()
 		.position(|character| match character {
@@ -135,7 +152,8 @@ pub fn parse_start_tag(state: &mut crate::State, configuration: &crate::Configur
 		None => state.wiki_text.len(),
 		Some(position) => tag_name_start_position + position,
 	};
-	let tag_name = &state.wiki_text[tag_name_start_position..tag_name_end_position];
+	let tag_name =
+		&state.wiki_text[tag_name_start_position..tag_name_end_position];
 	let tag_name = if tag_name.as_bytes().iter().all(u8::is_ascii_lowercase) {
 		crate::Cow::Borrowed(tag_name)
 	} else {
@@ -150,7 +168,8 @@ pub fn parse_start_tag(state: &mut crate::State, configuration: &crate::Configur
 				start: tag_name_start_position,
 			});
 		}
-		Some(tag_class) => match state.wiki_text.as_bytes()[tag_name_end_position..]
+		Some(tag_class) => match state.wiki_text.as_bytes()
+			[tag_name_end_position..]
 			.iter()
 			.cloned()
 			.position(|character| character == b'>')
@@ -164,7 +183,8 @@ pub fn parse_start_tag(state: &mut crate::State, configuration: &crate::Configur
 				});
 			}
 			Some(tag_end_position) => {
-				let tag_end_position = tag_name_end_position + tag_end_position + 1;
+				let tag_end_position =
+					tag_name_end_position + tag_end_position + 1;
 				match tag_class {
 					crate::TagClass::ExtensionTag => {
 						if state.get_byte(tag_end_position - 2) == Some(b'/') {
@@ -189,7 +209,9 @@ pub fn parse_start_tag(state: &mut crate::State, configuration: &crate::Configur
 								}
 								_ => {
 									state.push_open_node(
-										crate::OpenNodeType::Tag { name: tag_name },
+										crate::OpenNodeType::Tag {
+											name: tag_name,
+										},
 										tag_end_position,
 									);
 								}
@@ -236,8 +258,7 @@ fn parse_plain_text_tag<'a>(
 						position_before_start_tag,
 						position_after_start_tag,
 						&start_tag_name,
-					)
-				{
+					) {
 					break;
 				}
 			}
@@ -260,8 +281,8 @@ fn parse_plain_text_end_tag<'a>(
 		match state.get_byte(position_after_end_tag_name) {
 			None | Some(b'/') | Some(b'<') => return false,
 			Some(b'\t') | Some(b'\n') | Some(b' ') => {
-				let position_after_end_tag =
-					state.skip_whitespace_forwards(position_after_end_tag_name + 1);
+				let position_after_end_tag = state
+					.skip_whitespace_forwards(position_after_end_tag_name + 1);
 				match state.get_byte(position_after_end_tag) {
 					Some(b'>') => break position_after_end_tag,
 					_ => return false,
@@ -271,18 +292,21 @@ fn parse_plain_text_end_tag<'a>(
 			_ => position_after_end_tag_name += 1,
 		}
 	} + 1;
-	let end_tag_name = &state.wiki_text[position_before_end_tag_name..position_after_end_tag_name];
-	let end_tag_name = if end_tag_name.as_bytes().iter().all(u8::is_ascii_lowercase) {
-		crate::Cow::Borrowed(end_tag_name)
-	} else {
-		end_tag_name.to_ascii_lowercase().into()
-	};
+	let end_tag_name = &state.wiki_text
+		[position_before_end_tag_name..position_after_end_tag_name];
+	let end_tag_name =
+		if end_tag_name.as_bytes().iter().all(u8::is_ascii_lowercase) {
+			crate::Cow::Borrowed(end_tag_name)
+		} else {
+			end_tag_name.to_ascii_lowercase().into()
+		};
 	if *start_tag_name == end_tag_name {
 		let nodes = if position_after_start_tag < position_before_end_tag {
 			vec![crate::Node::Text {
 				end: position_before_end_tag,
 				start: position_after_start_tag,
-				value: &state.wiki_text[position_after_start_tag..position_before_end_tag],
+				value: &state.wiki_text
+					[position_after_start_tag..position_before_end_tag],
 			}]
 		} else {
 			vec![]

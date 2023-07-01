@@ -3,13 +3,15 @@
 // the file LICENSE at the top-level directory of this distribution.
 
 pub fn parse_list_end_of_line(state: &mut crate::State) {
-	let item_end_position = state.skip_whitespace_backwards(state.scan_position);
+	let item_end_position =
+		state.skip_whitespace_backwards(state.scan_position);
 	state.flush(item_end_position);
 	state.scan_position += 1;
 	let mut level = 0;
 	for open_node in &state.stack {
 		match open_node.type_ {
-			crate::OpenNodeType::Table { .. } | crate::OpenNodeType::Tag { .. } => level += 1,
+			crate::OpenNodeType::Table { .. }
+			| crate::OpenNodeType::Tag { .. } => level += 1,
 			_ => break,
 		}
 	}
@@ -41,8 +43,7 @@ pub fn parse_list_end_of_line(state: &mut crate::State) {
 			|| match state.get_byte(state.scan_position) {
 				Some(b'#') | Some(b'*') | Some(b':') | Some(b';') => true,
 				_ => false,
-			}
-		{
+			} {
 			state.scan_position -= level - term_level;
 			level = term_level;
 			state.warnings.push(crate::Warning {
@@ -60,7 +61,8 @@ pub fn parse_list_end_of_line(state: &mut crate::State) {
 					let item_index = items.len() - 1;
 					let last_item = &mut items[item_index];
 					last_item.end = item_end_position;
-					last_item.nodes = std::mem::replace(&mut state.nodes, open_node.nodes);
+					last_item.nodes =
+						std::mem::replace(&mut state.nodes, open_node.nodes);
 				}
 				crate::Node::DefinitionList {
 					end: item_end_position,
@@ -73,7 +75,8 @@ pub fn parse_list_end_of_line(state: &mut crate::State) {
 					let item_index = items.len() - 1;
 					let last_item = &mut items[item_index];
 					last_item.end = item_end_position;
-					last_item.nodes = std::mem::replace(&mut state.nodes, open_node.nodes);
+					last_item.nodes =
+						std::mem::replace(&mut state.nodes, open_node.nodes);
 				}
 				crate::Node::OrderedList {
 					end: item_end_position,
@@ -86,7 +89,8 @@ pub fn parse_list_end_of_line(state: &mut crate::State) {
 					let item_index = items.len() - 1;
 					let last_item = &mut items[item_index];
 					last_item.end = item_end_position;
-					last_item.nodes = std::mem::replace(&mut state.nodes, open_node.nodes);
+					last_item.nodes =
+						std::mem::replace(&mut state.nodes, open_node.nodes);
 				}
 				crate::Node::UnorderedList {
 					end: item_end_position,
@@ -112,7 +116,8 @@ pub fn parse_list_end_of_line(state: &mut crate::State) {
 					let item_index = items.len() - 1;
 					let last_item = &mut items[item_index];
 					last_item.end = item_end_position;
-					last_item.nodes = std::mem::replace(&mut state.nodes, vec![]);
+					last_item.nodes =
+						std::mem::replace(&mut state.nodes, vec![]);
 				}
 				items.push(crate::DefinitionListItem {
 					end: 0,
@@ -122,8 +127,7 @@ pub fn parse_list_end_of_line(state: &mut crate::State) {
 						.wiki_text
 						.as_bytes()
 						.get(state.scan_position - 1)
-						.cloned()
-						== Some(b';')
+						.cloned() == Some(b';')
 					{
 						crate::DefinitionListItemType::Term
 					} else {
@@ -139,7 +143,8 @@ pub fn parse_list_end_of_line(state: &mut crate::State) {
 					let item_index = items.len() - 1;
 					let last_item = &mut items[item_index];
 					last_item.end = item_end_position;
-					last_item.nodes = std::mem::replace(&mut state.nodes, vec![]);
+					last_item.nodes =
+						std::mem::replace(&mut state.nodes, vec![]);
 				};
 				items.push(crate::ListItem {
 					end: 0,
@@ -155,7 +160,8 @@ pub fn parse_list_end_of_line(state: &mut crate::State) {
 					let item_index = items.len() - 1;
 					let last_item = &mut items[item_index];
 					last_item.end = item_end_position;
-					last_item.nodes = std::mem::replace(&mut state.nodes, vec![]);
+					last_item.nodes =
+						std::mem::replace(&mut state.nodes, vec![]);
 				};
 				items.push(crate::ListItem {
 					end: 0,

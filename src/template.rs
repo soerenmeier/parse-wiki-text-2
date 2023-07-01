@@ -20,7 +20,10 @@ pub fn parse_parameter_name_end(state: &mut crate::State) {
 				crate::state::flush(
 					&mut state.nodes,
 					state.flushed_position,
-					crate::state::skip_whitespace_backwards(state.wiki_text, state.scan_position),
+					crate::state::skip_whitespace_backwards(
+						state.wiki_text,
+						state.scan_position,
+					),
 					state.wiki_text,
 				);
 				state.flushed_position = crate::state::skip_whitespace_forwards(
@@ -43,8 +46,10 @@ pub fn parse_parameter_separator(state: &mut crate::State) {
 			..
 		}) => {
 			if name.is_none() {
-				let position =
-					crate::state::skip_whitespace_backwards(state.wiki_text, state.scan_position);
+				let position = crate::state::skip_whitespace_backwards(
+					state.wiki_text,
+					state.scan_position,
+				);
 				crate::state::flush(
 					&mut state.nodes,
 					state.flushed_position,
@@ -96,7 +101,8 @@ pub fn parse_template_end(state: &mut crate::State) {
 							start,
 						});
 					} else {
-						let start_position = state.skip_whitespace_backwards(state.scan_position);
+						let start_position = state
+							.skip_whitespace_backwards(state.scan_position);
 						state.flush(start_position);
 						let nodes = std::mem::replace(&mut state.nodes, nodes);
 						state.nodes.push(crate::Node::Parameter {
@@ -111,7 +117,8 @@ pub fn parse_template_end(state: &mut crate::State) {
 				} else {
 					state.warnings.push(crate::Warning {
 						end: state.scan_position + 2,
-						message: crate::WarningMessage::UnexpectedEndTagRewinding,
+						message:
+							crate::WarningMessage::UnexpectedEndTagRewinding,
 						start: state.scan_position,
 					});
 					state.rewind(nodes, start);
@@ -132,7 +139,8 @@ pub fn parse_template_end(state: &mut crate::State) {
 						mut parameters,
 					},
 			}) => {
-				let position = state.skip_whitespace_backwards(state.scan_position);
+				let position =
+					state.skip_whitespace_backwards(state.scan_position);
 				state.flush(position);
 				state.scan_position += 2;
 				state.flushed_position = state.scan_position;
@@ -142,7 +150,8 @@ pub fn parse_template_end(state: &mut crate::State) {
 						let parameters_length = parameters.len();
 						let parameter = &mut parameters[parameters_length - 1];
 						parameter.end = position;
-						parameter.value = std::mem::replace(&mut state.nodes, nodes);
+						parameter.value =
+							std::mem::replace(&mut state.nodes, nodes);
 						name
 					}
 				};
@@ -167,8 +176,7 @@ pub fn parse_template_end(state: &mut crate::State) {
 					}
 					crate::OpenNodeType::Template { .. } => true,
 					_ => false,
-				})
-			{
+				}) {
 				state.warnings.push(crate::Warning {
 					end: state.scan_position + 2,
 					message: crate::WarningMessage::UnexpectedEndTagRewinding,
@@ -194,16 +202,20 @@ pub fn parse_template_separator(state: &mut crate::State) {
 			type_: crate::OpenNodeType::Template { name, parameters },
 			..
 		}) => {
-			let position =
-				crate::state::skip_whitespace_backwards(state.wiki_text, state.scan_position);
+			let position = crate::state::skip_whitespace_backwards(
+				state.wiki_text,
+				state.scan_position,
+			);
 			crate::state::flush(
 				&mut state.nodes,
 				state.flushed_position,
 				position,
 				state.wiki_text,
 			);
-			state.flushed_position =
-				crate::state::skip_whitespace_forwards(state.wiki_text, state.scan_position + 1);
+			state.flushed_position = crate::state::skip_whitespace_forwards(
+				state.wiki_text,
+				state.scan_position + 1,
+			);
 			state.scan_position = state.flushed_position;
 			if name.is_none() {
 				*name = Some(std::mem::replace(&mut state.nodes, vec![]));

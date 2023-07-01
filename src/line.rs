@@ -2,7 +2,10 @@
 // This is free software distributed under the terms specified in
 // the file LICENSE at the top-level directory of this distribution.
 
-pub fn parse_beginning_of_line(state: &mut crate::State, line_start_position: Option<usize>) {
+pub fn parse_beginning_of_line(
+	state: &mut crate::State,
+	line_start_position: Option<usize>,
+) {
 	let mut has_line_break = false;
 	'a: loop {
 		match state.get_byte(state.scan_position) {
@@ -41,17 +44,27 @@ pub fn parse_beginning_of_line(state: &mut crate::State, line_start_position: Op
 						None => return,
 						Some(b'\n') => break,
 						Some(b'\t') | Some(b' ') => state.scan_position += 1,
-						Some(b'{') if state.get_byte(state.scan_position + 1) == Some(b'|') => {
-							crate::table::start_table(state, line_start_position);
+						Some(b'{')
+							if state.get_byte(state.scan_position + 1)
+								== Some(b'|') =>
+						{
+							crate::table::start_table(
+								state,
+								line_start_position,
+							);
 							return;
 						}
 						Some(_) => {
 							if let Some(position) = line_start_position {
-								let position = state.skip_whitespace_backwards(position);
+								let position =
+									state.skip_whitespace_backwards(position);
 								state.flush(position);
 							}
 							state.flushed_position = state.scan_position;
-							state.push_open_node(crate::OpenNodeType::Preformatted, start_position);
+							state.push_open_node(
+								crate::OpenNodeType::Preformatted,
+								start_position,
+							);
 							return;
 						}
 					}
@@ -73,7 +86,8 @@ pub fn parse_beginning_of_line(state: &mut crate::State, line_start_position: Op
 					&& state.get_byte(state.scan_position + 3) == Some(b'-')
 				{
 					if let Some(position) = line_start_position {
-						let position = state.skip_whitespace_backwards(position);
+						let position =
+							state.skip_whitespace_backwards(position);
 						state.flush(position);
 					}
 					let start = state.scan_position;
@@ -85,7 +99,9 @@ pub fn parse_beginning_of_line(state: &mut crate::State, line_start_position: Op
 						end: state.scan_position,
 						start,
 					});
-					while let Some(character) = state.get_byte(state.scan_position) {
+					while let Some(character) =
+						state.get_byte(state.scan_position)
+					{
 						match character {
 							b'\t' | b' ' => state.scan_position += 1,
 							b'\n' => {
@@ -213,14 +229,16 @@ fn parse_preformatted_end_of_line(state: &mut crate::State) {
 				}
 				Some(b'|')
 					if state.get_byte(position + 1) == Some(b'}')
-						&& state.stack.len() > 1
-						&& match state.stack.get(state.stack.len() - 2) {
-							Some(crate::OpenNode {
-								type_: crate::OpenNodeType::Table { .. },
-								..
-							}) => true,
-							_ => false,
-						} =>
+						&& state.stack.len() > 1 && match state
+						.stack
+						.get(state.stack.len() - 2)
+					{
+						Some(crate::OpenNode {
+							type_: crate::OpenNodeType::Table { .. },
+							..
+						}) => true,
+						_ => false,
+					} =>
 				{
 					break;
 				}

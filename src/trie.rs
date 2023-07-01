@@ -24,19 +24,27 @@ impl<T: Copy> Trie<T> {
 		self.add_term_internal(term, payload, false)
 	}
 
-	fn add_folded_characters(&mut self, character: char, initial_state: u32, next_state: State<T>) {
+	fn add_folded_characters(
+		&mut self,
+		character: char,
+		initial_state: u32,
+		next_state: State<T>,
+	) {
 		if let Some(folded_characters) = simple_fold(character) {
 			for character in folded_characters {
 				let mut last_state = initial_state;
 				let mut character_buffer = [0; 4];
-				let character_bytes = character.encode_utf8(&mut character_buffer).as_bytes();
+				let character_bytes =
+					character.encode_utf8(&mut character_buffer).as_bytes();
 				let mut byte_iterator = character_bytes.iter().cloned();
 				let mut byte_item = byte_iterator.next();
 				'b: while let Some(byte) = byte_item {
 					for item in &self.states[last_state as usize] {
 						if item.character == byte {
 							match item.next_state {
-								State::Continue(next_state) => last_state = next_state,
+								State::Continue(next_state) => {
+									last_state = next_state
+								}
 								State::Final(_) => unreachable!(),
 							}
 							byte_item = byte_iterator.next();
@@ -67,13 +75,19 @@ impl<T: Copy> Trie<T> {
 		self.add_term_internal(term, payload, true)
 	}
 
-	fn add_term_internal(&mut self, term: &str, payload: T, case_folded: bool) -> bool {
+	fn add_term_internal(
+		&mut self,
+		term: &str,
+		payload: T,
+		case_folded: bool,
+	) -> bool {
 		let mut last_state = 0;
 		let mut character_iterator = term.chars();
 		let mut character_item = character_iterator.next();
 		while let Some(character) = character_item {
 			let mut character_buffer = [0; 4];
-			let character_bytes = character.encode_utf8(&mut character_buffer).as_bytes();
+			let character_bytes =
+				character.encode_utf8(&mut character_buffer).as_bytes();
 			character_item = character_iterator.next();
 			let mut byte_iterator = character_bytes.iter().cloned();
 			let mut byte_item = byte_iterator.next();
@@ -82,7 +96,9 @@ impl<T: Copy> Trie<T> {
 				for item in &self.states[last_state as usize] {
 					if item.character == byte {
 						match item.next_state {
-							State::Continue(next_state) => last_state = next_state,
+							State::Continue(next_state) => {
+								last_state = next_state
+							}
 							State::Final(_) => return false,
 						}
 						byte_item = byte_iterator.next();
@@ -135,7 +151,9 @@ impl<T: Copy> Trie<T> {
 
 	pub fn find(&self, text: &str) -> Result<(usize, T), usize> {
 		let mut state = 0;
-		'outer: for (position, character1) in text.as_bytes().iter().cloned().enumerate() {
+		'outer: for (position, character1) in
+			text.as_bytes().iter().cloned().enumerate()
+		{
 			for character2 in &self.states[state as usize] {
 				if character1 == character2.character {
 					match character2.next_state {
@@ -143,7 +161,9 @@ impl<T: Copy> Trie<T> {
 							state = next_state;
 							continue 'outer;
 						}
-						State::Final(payload) => return Ok((position + 1, payload)),
+						State::Final(payload) => {
+							return Ok((position + 1, payload))
+						}
 					}
 				}
 			}
@@ -160,7 +180,9 @@ impl<T: Copy> Trie<T> {
 }
 
 fn simple_fold(character: char) -> Option<&'static [char]> {
-	match CASE_FOLDING_SIMPLE.binary_search_by_key(&character, |&(character, _)| character) {
+	match CASE_FOLDING_SIMPLE
+		.binary_search_by_key(&character, |&(character, _)| character)
+	{
 		Err(_) => None,
 		Ok(index) => Some(CASE_FOLDING_SIMPLE[index].1),
 	}
