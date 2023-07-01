@@ -78,26 +78,27 @@
 //! Reuse the same configuration when parsing multiple pages for efficiency.
 //!
 //! ```
-//! use parse_wiki_text::{Configuration, Node};
-//! let wiki_text = concat!(
-//!	 "==Our values==\n",
-//!	 "*Correctness\n",
-//!	 "*Speed\n",
-//!	 "*Ergonomics"
-//! );
+//! use parse_wiki_text_2::{Configuration, Node};
+//! let wiki_text = "\
+//!		==Our values==\n\
+//!		*Correctness\n\
+//!		*Speed\n\
+//!		*Ergonomics\
+//! ";
 //! let result = Configuration::default().parse(wiki_text);
 //! assert!(result.warnings.is_empty());
 //! # let mut found = false;
 //! for node in result.nodes {
-//!	 if let Node::UnorderedList { items, .. } = node {
-//!		 println!("Our values are:");
-//!		 for item in items {
-//!			 println!("- {}", item.nodes.iter().map(|node| match node {
-//!				 Node::Text { value, .. } => value,
-//!				 _ => ""
-//!			 }).collect::<String>());
-//! #		   found = true;
-//!		 }
+//!	if let Node::UnorderedList { items, .. } = node {
+//!		println!("Our values are:");
+//!		for item in items {
+//! 		let text = item.nodes.iter().map(|node| match node {
+//!				Node::Text { value, .. } => value,
+//!				_ => ""
+//!			}).collect::<String>();
+//!			println!("- {text}");
+//! # 		found = true;
+//!		}
 //!	 }
 //! }
 //! # assert!(found);

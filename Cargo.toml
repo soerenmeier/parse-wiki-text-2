@@ -1,9 +1,16 @@
 [package]
-authors = ["Fredrik Portström <https://portstrom.com>"]
+authors = [
+	"Fredrik Portström <https://portstrom.com>",
+	"Sören Meier <s@renmeier.ch>"
+]
 description = "Parse wiki text from Mediawiki into a tree of elements"
 edition = "2021"
 license-file = "LICENSE"
-name = "parse_wiki_text"
+name = "parse-wiki-text-2"
 readme = "readme.md"
-repository = "https://github.com/portstrom/parse_wiki_text"
-version = "0.1.5"
+repository = "https://github.com/soerenmeier/parse-wiki-text-2"
+version = "0.1.6-alpha.0"
+rust-version = "1.65"
+
+[dev-dependencies]
+clap = { version = "4.0", features = ["derive"] }
