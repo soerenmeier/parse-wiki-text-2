@@ -1,0 +1,9 @@
+[package]
+authors = ["Fredrik Portström <https://portstrom.com>"]
+description = "Parse wiki text from Mediawiki into a tree of elements"
+edition = "2018"
+license-file = "LICENSE"
+name = "parse_wiki_text"
+readme = "readme.md"
+repository = "https://github.com/portstrom/parse_wiki_text"
+version = "0.1.5"
