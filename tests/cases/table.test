@@ -1,0 +1,415 @@
+case:  {|\n |}
+node: [Table {attributes: [], captions: [], rows: []}]
+warn: []
+
+case:  {|\n|}
+node: [Table {attributes: [], captions: [], rows: []}]
+warn: []
+
+case: alpha\n{|\nbeta\n|}
+node: [Text(alpha), Text(beta), Table {attributes: [], captions: [], rows: []}]
+warn: [Warning(StrayTextInTable)]
+
+case: {|
+node: [Text({|)]
+warn: [Warning(MissingEndTagRewinding)]
+
+case: {|\n |}
+node: [Table {attributes: [], captions: [], rows: []}]
+warn: []
+
+case: {|\n!\n alpha\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [ParagraphBreak, Preformatted([Text(alpha)])])])]}]
+warn: []
+
+case: {|\n!\n!\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , []), TableCell(Heading, , [])])]}]
+warn: []
+
+case: {|\n!\nalpha\n\nbeta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [ParagraphBreak, Text(alpha), ParagraphBreak, Text(beta)])])]}]
+warn: []
+
+case: {|\n!\nalpha\n\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [ParagraphBreak, Text(alpha)])])]}]
+warn: []
+
+case: {|\n!\nalpha\nbeta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [ParagraphBreak, Text(alpha\nbeta)])])]}]
+warn: []
+
+case: {|\n!\nalpha \n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [ParagraphBreak, Text(alpha)])])]}]
+warn: []
+
+case: {|\n!\n|\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , []), TableCell(Ordinary, , [])])]}]
+warn: []
+
+case: {|\n!\n|-\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [])]), TableRow([], [])]}]
+warn: []
+
+case: {|\n!\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [])])]}]
+warn: []
+
+case: {|\n! alpha\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [Text(alpha)])])]}]
+warn: []
+
+case: {|\n!!\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [Text(!)])])]}]
+warn: []
+
+case: {|\n!!!\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , []), TableCell(Heading, , [])])]}]
+warn: []
+
+case: {|\n!!!!\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , []), TableCell(Heading, , [Text(!)])])]}]
+warn: []
+
+case: {|\n!!!|\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , []), TableCell(Heading, [], [])])]}]
+warn: []
+
+case: {|\n!alpha\n\nbeta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [Text(alpha), ParagraphBreak, Text(beta)])])]}]
+warn: []
+
+case: {|\n!alpha\nbeta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [Text(alpha), ParagraphBreak, Text(beta)])])]}]
+warn: []
+
+case: {|\n!alpha\nbeta|gamma\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [Text(alpha), ParagraphBreak, Text(beta|gamma)])])]}]
+warn: []
+
+case: {|\n!alpha\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [Text(alpha)])])]}]
+warn: []
+
+case: {|\n!alpha!!beta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [Text(alpha)]), TableCell(Heading, , [Text(beta)])])]}]
+warn: []
+
+case: {|\n!alpha!beta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [Text(alpha!beta)])])]}]
+warn: []
+
+case: {|\n!alpha|beta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, [Text(alpha)], [Text(beta)])])]}]
+warn: []
+
+case: {|\n!alpha||beta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [Text(alpha)]), TableCell(Heading, , [Text(beta)])])]}]
+warn: []
+
+case: {|\n!|\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, [], [])])]}]
+warn: []
+
+case: {|\n!|!!\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, [], []), TableCell(Heading, , [])])]}]
+warn: []
+
+case: {|\n!|alpha\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, [], [Text(alpha)])])]}]
+warn: []
+
+case: {|\n!|alpha|beta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, [], [Text(alpha|beta)])])]}]
+warn: []
+
+case: {|\n!||\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , []), TableCell(Heading, , [])])]}]
+warn: []
+
+case: {|\n!||alpha\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , []), TableCell(Heading, , [Text(alpha)])])]}]
+warn: []
+
+case: {|\n!|||\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , []), TableCell(Heading, [], [])])]}]
+warn: []
+
+case: {|\n*alpha\n|}
+node: [UnorderedList([ListItem([Text(alpha)])]), Table {attributes: [], captions: [], rows: []}]
+warn: [Warning(StrayTextInTable)]
+
+case: {|\n=alpha=\n|}
+node: [Heading(1, [Text(alpha)]), Table {attributes: [], captions: [], rows: []}]
+warn: [Warning(StrayTextInTable)]
+
+case: {|\nalpha\n|}
+node: [Text(alpha), Table {attributes: [], captions: [], rows: []}]
+warn: [Warning(StrayTextInTable)]
+
+case: {|\n|
+node: [Text({|\n|)]
+warn: [Warning(MissingEndTagRewinding)]
+
+case: {|\n|\n alpha\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [ParagraphBreak, Preformatted([Text(alpha)])])])]}]
+warn: []
+
+case: {|\n|\n!\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , []), TableCell(Heading, , [])])]}]
+warn: []
+
+case: {|\n|\n*alpha\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [ParagraphBreak, UnorderedList([ListItem([Text(alpha)])])])])]}]
+warn: []
+
+case: {|\n|\n=alpha=\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [ParagraphBreak, Heading(1, [Text(alpha)])])])]}]
+warn: []
+
+case: {|\n|\nalpha\n\nbeta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [ParagraphBreak, Text(alpha), ParagraphBreak, Text(beta)])])]}]
+warn: []
+
+case: {|\n|\nalpha\n\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [ParagraphBreak, Text(alpha)])])]}]
+warn: []
+
+case: {|\n|\nalpha\nbeta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [ParagraphBreak, Text(alpha\nbeta)])])]}]
+warn: []
+
+case: {|\n|\nalpha \n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [ParagraphBreak, Text(alpha)])])]}]
+warn: []
+
+case: {|\n|\n|\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , []), TableCell(Ordinary, , [])])]}]
+warn: []
+
+case: {|\n|\n|-\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [])]), TableRow([], [])]}]
+warn: []
+
+case: {|\n|\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [])])]}]
+warn: []
+
+case: {|\n| alpha\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [Text(alpha)])])]}]
+warn: []
+
+case: {|\n|+\n alpha\n|}
+node: [Table {attributes: [], captions: [TableCaption(, [Text(alpha)])], rows: []}]
+warn: []
+
+case: {|\n|+\n*alpha\n|}
+node: [Table {attributes: [], captions: [TableCaption(, [UnorderedList([ListItem([Text(alpha)])])])], rows: []}]
+warn: []
+
+case: {|\n|+\n=alpha=\n|}
+node: [Table {attributes: [], captions: [TableCaption(, [Heading(1, [Text(alpha)])])], rows: []}]
+warn: []
+
+case: {|\n|+\nalpha\n\nbeta\n|}
+node: [Table {attributes: [], captions: [TableCaption(, [Text(alpha\n\nbeta)])], rows: []}]
+warn: []
+
+case: {|\n|+\nalpha\nbeta\n|}
+node: [Table {attributes: [], captions: [TableCaption(, [Text(alpha\nbeta)])], rows: []}]
+warn: []
+
+case: {|\n|+\nalpha\n|}
+node: [Table {attributes: [], captions: [TableCaption(, [Text(alpha)])], rows: []}]
+warn: []
+
+case: {|\n|+\n|+\n|}
+node: [Table {attributes: [], captions: [TableCaption(, []), TableCaption(, [])], rows: []}]
+warn: []
+
+case: {|\n|+\n|}
+node: [Table {attributes: [], captions: [TableCaption(, [])], rows: []}]
+warn: []
+
+case: {|\n|+ alpha\n|}
+node: [Table {attributes: [], captions: [TableCaption(, [Text(alpha)])], rows: []}]
+warn: []
+
+case: {|\n|+!!\n|}
+node: [Table {attributes: [], captions: [TableCaption(, [Text(!!)])], rows: []}]
+warn: []
+
+case: {|\n|+alpha\n\nbeta\n|}
+node: [Table {attributes: [], captions: [TableCaption(, [Text(alpha\n\nbeta)])], rows: []}]
+warn: []
+
+case: {|\n|+alpha\nbeta\n|}
+node: [Table {attributes: [], captions: [TableCaption(, [Text(alpha\nbeta)])], rows: []}]
+warn: []
+
+case: {|\n|+alpha\n|}
+node: [Table {attributes: [], captions: [TableCaption(, [Text(alpha)])], rows: []}]
+warn: []
+
+case: {|\n|+alpha \n|}
+node: [Table {attributes: [], captions: [TableCaption(, [Text(alpha)])], rows: []}]
+warn: []
+
+case: {|\n|+|\n|}
+node: [Table {attributes: [], captions: [TableCaption([], [])], rows: []}]
+warn: []
+
+case: {|\n|+|alpha|\n|}
+node: [Table {attributes: [], captions: [TableCaption([], [Text(alpha|)])], rows: []}]
+warn: []
+
+case: {|\n|+|alpha|beta\n|}
+node: [Table {attributes: [], captions: [TableCaption([], [Text(alpha|beta)])], rows: []}]
+warn: []
+
+case: {|\n|+||\n|}
+node: [Table {attributes: [], captions: [TableCaption(, []), TableCaption(, [])], rows: []}]
+warn: []
+
+case: {|\n|+||alpha\n|}
+node: [Table {attributes: [], captions: [TableCaption(, []), TableCaption(, [Text(alpha)])], rows: []}]
+warn: []
+
+case: {|\n|+|||\n|}
+node: [Table {attributes: [], captions: [TableCaption(, []), TableCaption([], [])], rows: []}]
+warn: []
+
+case: {|\n|-\n alpha\n|}
+node: [Text(alpha), Table {attributes: [], captions: [], rows: [TableRow([], [])]}]
+warn: [Warning(StrayTextInTable)]
+
+case: {|\n|-\n!\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Heading, , [])])]}]
+warn: []
+
+case: {|\n|-\n*alpha\n|}
+node: [UnorderedList([ListItem([Text(alpha)])]), Table {attributes: [], captions: [], rows: [TableRow([], [])]}]
+warn: [Warning(StrayTextInTable)]
+
+case: {|\n|-\n=alpha=\n|}
+node: [Heading(1, [Text(alpha)]), Table {attributes: [], captions: [], rows: [TableRow([], [])]}]
+warn: [Warning(StrayTextInTable)]
+
+case: {|\n|-\nalpha\n|}
+node: [Text(alpha), Table {attributes: [], captions: [], rows: [TableRow([], [])]}]
+warn: [Warning(StrayTextInTable)]
+
+case: {|\n|-\n|\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [])])]}]
+warn: []
+
+case: {|\n|-\n|-\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], []), TableRow([], [])]}]
+warn: []
+
+case: {|\n|-\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [])]}]
+warn: []
+
+case: {|\n|- alpha\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([Text(alpha)], [])]}]
+warn: []
+
+case: {|\n|-alpha\n\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([Text(alpha)], [])]}]
+warn: []
+
+case: {|\n|-alpha\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([Text(alpha)], [])]}]
+warn: []
+
+case: {|\n|-alpha \n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([Text(alpha)], [])]}]
+warn: []
+
+case: {|\n|alpha\n\nbeta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [Text(alpha), ParagraphBreak, Text(beta)])])]}]
+warn: []
+
+case: {|\n|alpha\nbeta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [Text(alpha), ParagraphBreak, Text(beta)])])]}]
+warn: []
+
+case: {|\n|alpha\nbeta|gamma\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [Text(alpha), ParagraphBreak, Text(beta|gamma)])])]}]
+warn: []
+
+case: {|\n|alpha\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [Text(alpha)])])]}]
+warn: []
+
+case: {|\n|alpha!!beta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [Text(alpha!!beta)])])]}]
+warn: []
+
+case: {|\n|alpha!beta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [Text(alpha!beta)])])]}]
+warn: []
+
+case: {|\n|alpha|\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, [Text(alpha)], [])])]}]
+warn: []
+
+case: {|\n|alpha|beta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, [Text(alpha)], [Text(beta)])])]}]
+warn: []
+
+case: {|\n|alpha||beta\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , [Text(alpha)]), TableCell(Ordinary, , [Text(beta)])])]}]
+warn: []
+
+case: {|\n||\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, [], [])])]}]
+warn: []
+
+case: {|\n||alpha\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, [], [Text(alpha)])])]}]
+warn: []
+
+case: {|\n|||\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , []), TableCell(Ordinary, , [])])]}]
+warn: []
+
+case: {|\n||||\n|}
+node: [Table {attributes: [], captions: [], rows: [TableRow([], [TableCell(Ordinary, , []), TableCell(Ordinary, [], [])])]}]
+warn: []
+
+case: {|\n|}
+node: [Table {attributes: [], captions: [], rows: []}]
+warn: []
+
+case: {|\n|}\t\nalpha
+node: [Table {attributes: [], captions: [], rows: []}, Text(alpha)]
+warn: []
+
+case: {|\n|}\n\n\nalpha
+node: [Table {attributes: [], captions: [], rows: []}, Text(alpha)]
+warn: [Warning(RepeatedEmptyLine)]
+
+case: {|\n|}\n\nalpha
+node: [Table {attributes: [], captions: [], rows: []}, Text(alpha)]
+warn: []
+
+case: {|\n|}\nalpha
+node: [Table {attributes: [], captions: [], rows: []}, Text(alpha)]
+warn: []
+
+case: {|\n|} \nalpha
+node: [Table {attributes: [], captions: [], rows: []}, Text(alpha)]
+warn: []
+
+case: {|\n|}alpha
+node: [Table {attributes: [], captions: [], rows: []}, Text(alpha)]
+warn: []
+
+case: {|alpha\nbeta\n|}
+node: [Text(beta), Table {attributes: [Text(alpha)], captions: [], rows: []}]
+warn: [Warning(StrayTextInTable)]
+
+case: {|alpha\n|}
+node: [Table {attributes: [Text(alpha)], captions: [], rows: []}]
+warn: []

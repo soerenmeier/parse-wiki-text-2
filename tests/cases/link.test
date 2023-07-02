@@ -1,0 +1,139 @@
+case: [[FILE:alpha]]
+node: [Image(FILE:alpha, [])]
+warn: []
+
+case: [[File:alpha]]
+node: [Image(File:alpha, [])]
+warn: []
+
+case: [[alpha
+node: [Text([[alpha)]
+warn: [Warning(InvalidLinkSyntax)]
+
+case: [[alpha:beta]]
+node: [Link(alpha:beta, [Text(alpha:beta)])]
+warn: []
+
+case: [[alpha:beta]]gamma
+node: [Link(alpha:beta, [Text(alpha:beta), Text(gamma)])]
+warn: []
+
+case: [[alpha]]
+node: [Link(alpha, [Text(alpha)])]
+warn: []
+
+case: [[alpha]] beta
+node: [Link(alpha, [Text(alpha)]), Text( beta)]
+warn: []
+
+case: [[alpha]]beta
+node: [Link(alpha, [Text(alpha), Text(beta)])]
+warn: []
+
+case: [[alpha]]beta gamma
+node: [Link(alpha, [Text(alpha), Text(beta)]), Text( gamma)]
+warn: []
+
+case: [[alpha]]ü
+node: [Link(alpha, [Text(alpha)]), Text(ü)]
+warn: []
+
+case: [[alpha|
+node: [Text([[alpha|)]
+warn: [Warning(MissingEndTagRewinding)]
+
+case: [[alpha|[beta]gamma]]
+node: [Link(alpha, [Text([beta]gamma)])]
+warn: []
+
+case: [[alpha|]]
+node: [Link(alpha, [])]
+warn: []
+
+case: [[alpha|beta
+node: [Text([[alpha|beta)]
+warn: [Warning(MissingEndTagRewinding)]
+
+case: [[alpha|beta\ngamma]]
+node: [Link(alpha, [Text(beta\ngamma)])]
+warn: []
+
+case: [[alpha|beta[[gamma]]]]
+node: [Text([[alpha|beta), Link(gamma, [Text(gamma)]), Text(]])]
+warn: [Warning(InvalidLinkSyntax)]
+
+case: [[alpha|beta]]
+node: [Link(alpha, [Text(beta)])]
+warn: []
+
+case: [[alpha|beta]]gamma
+node: [Link(alpha, [Text(beta), Text(gamma)]), Text(gamma)]
+warn: []
+
+case: [[category:alpha]]
+node: [Category(category:alpha, [])]
+warn: []
+
+case: [[category:alpha]]beta
+node: [Category(category:alpha, []), Text(beta)]
+warn: []
+
+case: [[category:alpha|beta]]
+node: [Category(category:alpha, [Text(beta)])]
+warn: []
+
+case: [[file:alpha]]
+node: [Image(file:alpha, [])]
+warn: []
+
+case: [[file:alpha]]beta
+node: [Image(file:alpha, []), Text(beta)]
+warn: []
+
+case: [[file:alpha|[[beta]]]]
+node: [Image(file:alpha, [Link(beta, [Text(beta)])])]
+warn: []
+
+case: [[file:alpha|[[beta]]gamma]]
+node: [Image(file:alpha, [Link(beta, [Text(beta), Text(gamma)])])]
+warn: []
+
+case: [[file:alpha|]]
+node: [Image(file:alpha, [])]
+warn: []
+
+case: [[file:alpha|beta[[gamma]]]]
+node: [Image(file:alpha, [Text(beta), Link(gamma, [Text(gamma)])])]
+warn: []
+
+case: [[file:alpha|beta]]
+node: [Image(file:alpha, [Text(beta)])]
+warn: []
+
+case: [[file:alpha|beta]]gamma
+node: [Image(file:alpha, [Text(beta)]), Text(gamma)]
+warn: []
+
+case: [[image:alpha]]
+node: [Image(image:alpha, [])]
+warn: []
+
+case: [[|]]
+node: [Link(, [])]
+warn: []
+
+case: [[|alpha]]
+node: [Link(, [Text(alpha)])]
+warn: []
+
+case: alpha [[beta]]
+node: [Text(alpha ), Link(beta, [Text(beta)])]
+warn: []
+
+case: alpha[[beta]]
+node: [Text(alpha), Link(beta, [Text(beta)])]
+warn: []
+
+case: alpha[[beta]]gamma
+node: [Text(alpha), Link(beta, [Text(beta), Text(gamma)])]
+warn: []

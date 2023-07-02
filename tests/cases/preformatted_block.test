@@ -1,0 +1,67 @@
+case:   alpha
+node: [Preformatted([Text( alpha)])]
+warn: []
+
+case:  alpha
+node: [Preformatted([Text(alpha)])]
+warn: []
+
+case:  alpha\n\n\nbeta
+node: [Preformatted([Text(alpha)]), Text(beta)]
+warn: [Warning(RepeatedEmptyLine)]
+
+case:  alpha\n\nbeta
+node: [Preformatted([Text(alpha)]), Text(beta)]
+warn: []
+
+case:  alpha\n beta
+node: [Preformatted([Text(alpha\n), Text(beta)])]
+warn: []
+
+case:  alpha\n beta\n gamma
+node: [Preformatted([Text(alpha\n), Text(beta\n), Text(gamma)])]
+warn: []
+
+case:  alpha\n beta\ngamma
+node: [Preformatted([Text(alpha\n), Text(beta)]), Text(gamma)]
+warn: []
+
+case:  alpha\nbeta
+node: [Preformatted([Text(alpha)]), Text(beta)]
+warn: []
+
+case:  alpha\nbeta\n gamma
+node: [Preformatted([Text(alpha)]), Text(beta), Preformatted([Text(gamma)])]
+warn: []
+
+case: alpha\t\n beta
+node: [Text(alpha), Preformatted([Text(beta)])]
+warn: []
+
+case: alpha\n\n beta
+node: [Text(alpha), Preformatted([Text(beta)])]
+warn: []
+
+case: alpha\n \n beta
+node: [Text(alpha), Preformatted([Text(beta)])]
+warn: []
+
+case: alpha\n =beta=\ngamma
+node: [Text(alpha), Preformatted([Text(=beta=)]), Text(gamma)]
+warn: []
+
+case: alpha\n beta
+node: [Text(alpha), Preformatted([Text(beta)])]
+warn: []
+
+case: alpha\n beta\n gamma
+node: [Text(alpha), Preformatted([Text(beta\n), Text(gamma)])]
+warn: []
+
+case: alpha\n beta\ngamma
+node: [Text(alpha), Preformatted([Text(beta)]), Text(gamma)]
+warn: []
+
+case: alpha \n beta
+node: [Text(alpha), Preformatted([Text(beta)])]
+warn: []

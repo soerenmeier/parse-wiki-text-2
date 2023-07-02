@@ -1,0 +1,51 @@
+case: <!--
+node: [Comment]
+warn: []
+
+case: <!---->
+node: [Comment]
+warn: []
+
+case: <!---->beta
+node: [Comment, Text(beta)]
+warn: []
+
+case: <!--->beta
+node: [Comment]
+warn: []
+
+case: <!--<!--alpha-->-->beta
+node: [Comment, Text(-->beta)]
+warn: []
+
+case: <!--alpha-->
+node: [Comment]
+warn: []
+
+case: <!--alpha--> beta
+node: [Comment, Text( beta)]
+warn: []
+
+case: <!--alpha--><!--beta
+node: [Comment, Comment]
+warn: []
+
+case: <!--alpha--><!--beta-->
+node: [Comment, Comment]
+warn: []
+
+case: <!--alpha-->beta
+node: [Comment, Text(beta)]
+warn: []
+
+case: <!-<!--alpha-->beta
+node: [Text(<!-), Comment, Text(beta)]
+warn: [Warning(UnrecognizedTagName)]
+
+case: alpha <!--beta
+node: [Text(alpha ), Comment]
+warn: []
+
+case: alpha<!--beta
+node: [Text(alpha), Comment]
+warn: []

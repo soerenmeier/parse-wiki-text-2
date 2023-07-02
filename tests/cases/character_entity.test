@@ -1,0 +1,51 @@
+case: &Lt;
+node: [Text(&Lt;)]
+warn: []
+
+case: &Ouml;
+node: [CharacterEntity(Ö)]
+warn: []
+
+case: &lt
+node: [Text(&lt)]
+warn: []
+
+case: &lt&ouml;
+node: [Text(&lt), CharacterEntity(ö)]
+warn: []
+
+case: &lt;
+node: [CharacterEntity(<)]
+warn: []
+
+case: &lt; alpha
+node: [CharacterEntity(<), Text( alpha)]
+warn: []
+
+case: &lt;&ouml;
+node: [CharacterEntity(<), CharacterEntity(ö)]
+warn: []
+
+case: &lt;alpha
+node: [CharacterEntity(<), Text(alpha)]
+warn: []
+
+case: &ouml;
+node: [CharacterEntity(ö)]
+warn: []
+
+case: alpha &lt;
+node: [Text(alpha ), CharacterEntity(<)]
+warn: []
+
+case: alpha &lt; beta
+node: [Text(alpha ), CharacterEntity(<), Text( beta)]
+warn: []
+
+case: alpha&lt;
+node: [Text(alpha), CharacterEntity(<)]
+warn: []
+
+case: alpha&lt;beta
+node: [Text(alpha), CharacterEntity(<), Text(beta)]
+warn: []

@@ -1,0 +1,75 @@
+case: [//alpha
+node: [Text([//alpha)]
+warn: [Warning(InvalidLinkSyntax)]
+
+case: [//alpha beta\ngamma]
+node: [Text([//alpha beta\ngamma])]
+warn: [Warning(InvalidLinkSyntax)]
+
+case: [//alpha beta]
+node: [ExternalLink([Text(//alpha beta)])]
+warn: []
+
+case: [//alpha]
+node: [ExternalLink([Text(//alpha)])]
+warn: []
+
+case: [//alpha] beta
+node: [ExternalLink([Text(//alpha)]), Text( beta)]
+warn: []
+
+case: [//alpha]beta
+node: [ExternalLink([Text(//alpha)]), Text(beta)]
+warn: []
+
+case: [HTTP://alpha]
+node: [ExternalLink([Text(HTTP://alpha)])]
+warn: []
+
+case: [Http://alpha]
+node: [ExternalLink([Text(Http://alpha)])]
+warn: []
+
+case: [alpha://beta]
+node: [Text([alpha://beta])]
+warn: []
+
+case: [hTtP://alpha]
+node: [ExternalLink([Text(hTtP://alpha)])]
+warn: []
+
+case: [http://alpha]
+node: [ExternalLink([Text(http://alpha)])]
+warn: []
+
+case: [http:/alpha]
+node: [Text([http:/alpha])]
+warn: []
+
+case: [http:alpha]
+node: [Text([http:alpha])]
+warn: []
+
+case: [https://alpha]
+node: [ExternalLink([Text(https://alpha)])]
+warn: []
+
+case: [sip:alpha]
+node: [ExternalLink([Text(sip:alpha)])]
+warn: []
+
+case: alpha [//beta]
+node: [Text(alpha ), ExternalLink([Text(//beta)])]
+warn: []
+
+case: alpha [//beta] gamma
+node: [Text(alpha ), ExternalLink([Text(//beta)]), Text( gamma)]
+warn: []
+
+case: alpha[//beta]
+node: [Text(alpha), ExternalLink([Text(//beta)])]
+warn: []
+
+case: alpha[//beta]gamma
+node: [Text(alpha), ExternalLink([Text(//beta)]), Text(gamma)]
+warn: []

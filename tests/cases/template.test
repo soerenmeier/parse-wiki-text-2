@@ -1,0 +1,179 @@
+case: *alpha}}
+node: [UnorderedList([ListItem([Text(alpha}})])])]
+warn: [Warning(UnexpectedEndTag)]
+
+case: [[alpha|beta}}]]
+node: [Link(alpha, [Text(beta}})])]
+warn: [Warning(UnexpectedEndTag)]
+
+case: alpha {{beta}}
+node: [Text(alpha ), Template([Text(beta)], [])]
+warn: []
+
+case: alpha {{beta}} gamma
+node: [Text(alpha ), Template([Text(beta)], []), Text( gamma)]
+warn: []
+
+case: alpha{{beta}}
+node: [Text(alpha), Template([Text(beta)], [])]
+warn: []
+
+case: alpha{{beta}}gamma
+node: [Text(alpha), Template([Text(beta)], []), Text(gamma)]
+warn: []
+
+case: {{\nalpha}}
+node: [Template([Text(alpha)], [])]
+warn: []
+
+case: {{''}}
+node: [Template([Italic], [])]
+warn: []
+
+case: {{[[alpha|beta}}
+node: [Template([Text([[alpha)], [Parameter(, [Text(beta)])])]
+warn: [Warning(UnexpectedEndTagRewinding)]
+
+case: {{alpha
+node: [Text({{alpha)]
+warn: [Warning(MissingEndTagRewinding)]
+
+case: {{alpha\n|beta}}
+node: [Template([Text(alpha)], [Parameter(, [Text(beta)])])]
+warn: []
+
+case: {{alpha\n|}}
+node: [Template([Text(alpha)], [Parameter(, [])])]
+warn: []
+
+case: {{alpha\n}}
+node: [Template([Text(alpha)], [])]
+warn: []
+
+case: {{alpha|
+node: [Text({{alpha|)]
+warn: [Warning(MissingEndTagRewinding)]
+
+case: {{alpha|\nbeta}}
+node: [Template([Text(alpha)], [Parameter(, [Text(beta)])])]
+warn: []
+
+case: {{alpha|\n}}
+node: [Template([Text(alpha)], [Parameter(, [])])]
+warn: []
+
+case: {{alpha| beta}}
+node: [Template([Text(alpha)], [Parameter(, [Text(beta)])])]
+warn: []
+
+case: {{alpha|''}}
+node: [Template([Text(alpha)], [Parameter(, [Italic])])]
+warn: []
+
+case: {{alpha|beta
+node: [Text({{alpha|beta)]
+warn: [Warning(MissingEndTagRewinding)]
+
+case: {{alpha|beta\n=gamma}}
+node: [Template([Text(alpha)], [Parameter([Text(beta)], [Text(gamma)])])]
+warn: []
+
+case: {{alpha|beta\n}}
+node: [Template([Text(alpha)], [Parameter(, [Text(beta)])])]
+warn: []
+
+case: {{alpha|beta =gamma}}
+node: [Template([Text(alpha)], [Parameter([Text(beta)], [Text(gamma)])])]
+warn: []
+
+case: {{alpha|beta }}
+node: [Template([Text(alpha)], [Parameter(, [Text(beta)])])]
+warn: []
+
+case: {{alpha|beta=\ngamma}}
+node: [Template([Text(alpha)], [Parameter([Text(beta)], [Text(gamma)])])]
+warn: []
+
+case: {{alpha|beta= gamma}}
+node: [Template([Text(alpha)], [Parameter([Text(beta)], [Text(gamma)])])]
+warn: []
+
+case: {{alpha|beta=gamma\n}}
+node: [Template([Text(alpha)], [Parameter([Text(beta)], [Text(gamma)])])]
+warn: []
+
+case: {{alpha|beta=gamma }}
+node: [Template([Text(alpha)], [Parameter([Text(beta)], [Text(gamma)])])]
+warn: []
+
+case: {{alpha|beta=gamma=delta}}
+node: [Template([Text(alpha)], [Parameter([Text(beta)], [Text(gamma=delta)])])]
+warn: []
+
+case: {{alpha|beta=gamma|delta=epsilon}}
+node: [Template([Text(alpha)], [Parameter([Text(beta)], [Text(gamma)]), Parameter([Text(delta)], [Text(epsilon)])])]
+warn: []
+
+case: {{alpha|beta=gamma|delta}}
+node: [Template([Text(alpha)], [Parameter([Text(beta)], [Text(gamma)]), Parameter(, [Text(delta)])])]
+warn: []
+
+case: {{alpha|beta=gamma}}
+node: [Template([Text(alpha)], [Parameter([Text(beta)], [Text(gamma)])])]
+warn: []
+
+case: {{alpha|beta=}}
+node: [Template([Text(alpha)], [Parameter([Text(beta)], [])])]
+warn: []
+
+case: {{alpha|beta|gamma=delta}}
+node: [Template([Text(alpha)], [Parameter(, [Text(beta)]), Parameter([Text(gamma)], [Text(delta)])])]
+warn: []
+
+case: {{alpha|beta|gamma}}
+node: [Template([Text(alpha)], [Parameter(, [Text(beta)]), Parameter(, [Text(gamma)])])]
+warn: []
+
+case: {{alpha|beta}
+node: [Text({{alpha|beta})]
+warn: [Warning(MissingEndTagRewinding)]
+
+case: {{alpha|beta}}
+node: [Template([Text(alpha)], [Parameter(, [Text(beta)])])]
+warn: []
+
+case: {{alpha|beta}} gamma
+node: [Template([Text(alpha)], [Parameter(, [Text(beta)])]), Text( gamma)]
+warn: []
+
+case: {{alpha|beta}}gamma
+node: [Template([Text(alpha)], [Parameter(, [Text(beta)])]), Text(gamma)]
+warn: []
+
+case: {{alpha|}
+node: [Text({{alpha|})]
+warn: [Warning(MissingEndTagRewinding)]
+
+case: {{alpha|}}
+node: [Template([Text(alpha)], [Parameter(, [])])]
+warn: []
+
+case: {{alpha}
+node: [Text({{alpha})]
+warn: [Warning(MissingEndTagRewinding)]
+
+case: {{alpha}}
+node: [Template([Text(alpha)], [])]
+warn: []
+
+case: {{alpha}} beta
+node: [Template([Text(alpha)], []), Text( beta)]
+warn: []
+
+case: {{alpha}}beta
+node: [Template([Text(alpha)], []), Text(beta)]
+warn: []
+
+case: }}
+node: [Text(}})]
+warn: [Warning(UnexpectedEndTag)]

@@ -1,0 +1,151 @@
+case: =
+node: [Text(=)]
+warn: [Warning(InvalidHeadingSyntaxRewinding)]
+
+case: = =
+node: [Heading(1, [])]
+warn: []
+
+case: = alpha =
+node: [Heading(1, [Text(alpha)])]
+warn: []
+
+case: =''=
+node: [Heading(1, [Italic])]
+warn: []
+
+case: ==
+node: [Text(==)]
+warn: [Warning(InvalidHeadingSyntaxRewinding)]
+
+case: == ''=
+node: [Heading(1, [Text(= ), Italic])]
+warn: [Warning(UnexpectedHeadingLevelCorrecting)]
+
+case: == alpha''=
+node: [Heading(1, [Text(= alpha), Italic])]
+warn: [Warning(UnexpectedHeadingLevelCorrecting)]
+
+case: ==''=
+node: [Heading(1, [Text(=), Italic])]
+warn: [Warning(UnexpectedHeadingLevelCorrecting)]
+
+case: ===
+node: [Heading(1, [Text(=)])]
+warn: [Warning(UnexpectedHeadingLevelCorrecting)]
+
+case: ====
+node: [Heading(1, [Text(==)])]
+warn: [Warning(UnexpectedHeadingLevelCorrecting)]
+
+case: =====
+node: [Heading(2, [Text(=)])]
+warn: [Warning(UnexpectedHeadingLevelCorrecting)]
+
+case: ======
+node: [Heading(2, [Text(==)])]
+warn: [Warning(UnexpectedHeadingLevelCorrecting)]
+
+case: ========alpha========
+node: [Heading(6, [Text(==alpha==)])]
+warn: []
+
+case: =======alpha======
+node: [Heading(6, [Text(=alpha)])]
+warn: []
+
+case: =======alpha=======
+node: [Heading(6, [Text(=alpha=)])]
+warn: []
+
+case: ======alpha======
+node: [Heading(6, [Text(alpha)])]
+warn: []
+
+case: =====alpha=====
+node: [Heading(5, [Text(alpha)])]
+warn: []
+
+case: ====alpha====
+node: [Heading(4, [Text(alpha)])]
+warn: []
+
+case: ===alpha===
+node: [Heading(3, [Text(alpha)])]
+warn: []
+
+case: ==alpha''=
+node: [Heading(1, [Text(=alpha), Italic])]
+warn: [Warning(UnexpectedHeadingLevelCorrecting)]
+
+case: ==alpha=
+node: [Heading(1, [Text(=alpha)])]
+warn: [Warning(UnexpectedHeadingLevelCorrecting)]
+
+case: ==alpha==
+node: [Heading(2, [Text(alpha)])]
+warn: []
+
+case: =alpha
+node: [Text(=alpha)]
+warn: [Warning(InvalidHeadingSyntaxRewinding)]
+
+case: =alpha\nbeta=
+node: [Text(=alpha\nbeta=)]
+warn: [Warning(InvalidHeadingSyntaxRewinding)]
+
+case: =alpha=
+node: [Heading(1, [Text(alpha)])]
+warn: []
+
+case: =alpha=\n\n\nbeta
+node: [Heading(1, [Text(alpha)]), Text(beta)]
+warn: [Warning(RepeatedEmptyLine)]
+
+case: =alpha=\n\n=beta=
+node: [Heading(1, [Text(alpha)]), Heading(1, [Text(beta)])]
+warn: []
+
+case: =alpha=\n\nbeta
+node: [Heading(1, [Text(alpha)]), Text(beta)]
+warn: []
+
+case: =alpha=\n=beta=
+node: [Heading(1, [Text(alpha)]), Heading(1, [Text(beta)])]
+warn: []
+
+case: =alpha=\nbeta
+node: [Heading(1, [Text(alpha)]), Text(beta)]
+warn: []
+
+case: =alpha= \nbeta
+node: [Heading(1, [Text(alpha)]), Text(beta)]
+warn: []
+
+case: =alpha==
+node: [Heading(1, [Text(alpha=)])]
+warn: []
+
+case: alpha\t\n=beta=
+node: [Text(alpha), Heading(1, [Text(beta)])]
+warn: []
+
+case: alpha\n\n=beta=
+node: [Text(alpha), Heading(1, [Text(beta)])]
+warn: []
+
+case: alpha\n\n=beta=\n\ngamma
+node: [Text(alpha), Heading(1, [Text(beta)]), Text(gamma)]
+warn: []
+
+case: alpha\n=beta=
+node: [Text(alpha), Heading(1, [Text(beta)])]
+warn: []
+
+case: alpha\n=beta=\ngamma
+node: [Text(alpha), Heading(1, [Text(beta)]), Text(gamma)]
+warn: []
+
+case: alpha \n=beta=
+node: [Text(alpha), Heading(1, [Text(beta)])]
+warn: []

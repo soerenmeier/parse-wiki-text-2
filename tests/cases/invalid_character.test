@@ -1,0 +1,11 @@
+case: \0
+node: [Text(\0)]
+warn: [Warning(InvalidCharacter)]
+
+case: \r
+node: [Text(\r)]
+warn: [Warning(InvalidCharacter)]
+
+case: \x7f
+node: [Text(\x7f)]
+warn: [Warning(InvalidCharacter)]

@@ -1,0 +1,55 @@
+case: <MATH>''</MATH>
+node: [Tag(math, [Text('')])]
+warn: []
+
+case: <NOWIKI>''</NOWIKI>
+node: [Tag(nowiki, [Text('')])]
+warn: []
+
+case: <mAtH>''</MaTh>
+node: [Tag(math, [Text('')])]
+warn: []
+
+case: <math>''</math>
+node: [Tag(math, [Text('')])]
+warn: []
+
+case: <math>''alpha
+node: [Text(<math>), Italic, Text(alpha)]
+warn: [Warning(MissingEndTagRewinding)]
+
+case: <nOwIkI>''</NoWiKi>
+node: [Tag(nowiki, [Text('')])]
+warn: []
+
+case: <nowiki>\n*alpha\n</nowiki>
+node: [Tag(nowiki, [Text(\n*alpha\n)])]
+warn: []
+
+case: <nowiki>\n=alpha=\n</nowiki>
+node: [Tag(nowiki, [Text(\n=alpha=\n)])]
+warn: []
+
+case: <nowiki>''</nowiki>
+node: [Tag(nowiki, [Text('')])]
+warn: []
+
+case: <nowiki>''alpha
+node: [Text(<nowiki>), Italic, Text(alpha)]
+warn: [Warning(MissingEndTagRewinding)]
+
+case: <nowiki><!-- alpha --></nowiki>
+node: [Tag(nowiki, [Text(<!-- alpha -->)])]
+warn: []
+
+case: <nowiki>{{</nowiki>
+node: [Tag(nowiki, [Text({{)])]
+warn: []
+
+case: <nowiki>{{alpha}}</nowiki>
+node: [Tag(nowiki, [Text({{alpha}})])]
+warn: []
+
+case: <nowiki>}}</nowiki>
+node: [Tag(nowiki, [Text(}})])]
+warn: []

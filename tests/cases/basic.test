@@ -1,0 +1,119 @@
+case: 
+node: []
+warn: []
+
+case: \t
+node: []
+warn: []
+
+case: \t\n
+node: []
+warn: []
+
+case: \t alpha
+node: [Text(alpha)]
+warn: []
+
+case: \talpha
+node: [Text(alpha)]
+warn: []
+
+case: \n
+node: []
+warn: []
+
+case: \n\t
+node: []
+warn: []
+
+case: \n\n\nalpha
+node: [Text(alpha)]
+warn: [Warning(RepeatedEmptyLine), Warning(RepeatedEmptyLine)]
+
+case: \n\nalpha
+node: [Text(alpha)]
+warn: [Warning(RepeatedEmptyLine)]
+
+case: \n\nalpha\n\n
+node: [Text(alpha)]
+warn: [Warning(RepeatedEmptyLine)]
+
+case: \n \nalpha
+node: [Text(alpha)]
+warn: [Warning(RepeatedEmptyLine)]
+
+case: \nalpha
+node: [Text(alpha)]
+warn: []
+
+case: \nalpha\n
+node: [Text(alpha)]
+warn: []
+
+case:  
+node: []
+warn: []
+
+case:  \n\nalpha
+node: [Text(alpha)]
+warn: [Warning(RepeatedEmptyLine)]
+
+case:  \nalpha
+node: [Text(alpha)]
+warn: []
+
+case:   
+node: []
+warn: []
+
+case: !!
+node: [Text(!!)]
+warn: []
+
+case: alpha
+node: [Text(alpha)]
+warn: []
+
+case: alpha\t
+node: [Text(alpha)]
+warn: []
+
+case: alpha\n
+node: [Text(alpha)]
+warn: []
+
+case: alpha\n\t
+node: [Text(alpha)]
+warn: []
+
+case: alpha\n\n
+node: [Text(alpha)]
+warn: []
+
+case: alpha\n\n\n
+node: [Text(alpha)]
+warn: [Warning(RepeatedEmptyLine)]
+
+case: alpha\n\n 
+node: [Text(alpha)]
+warn: []
+
+case: alpha\n 
+node: [Text(alpha)]
+warn: []
+
+case: alpha\n \n
+node: [Text(alpha)]
+warn: []
+
+case: alpha\nbeta
+node: [Text(alpha\nbeta)]
+warn: []
+
+case: alpha 
+node: [Text(alpha)]
+warn: []
+
+case: alpha \n
+node: [Text(alpha)]
+warn: []

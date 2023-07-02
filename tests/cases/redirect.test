@@ -1,0 +1,163 @@
+case: \t#REDIRECT[[alpha]]
+node: [Text(#REDIRECT), Link(alpha, [Text(alpha)])]
+warn: []
+
+case: \n\n#REDIRECT[[alpha]]
+node: [Redirect(alpha)]
+warn: [Warning(RepeatedEmptyLine)]
+
+case: \n #REDIRECT[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: \n#REDIRECT  [[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case:  \n#REDIRECT[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case:   #REDIRECT[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case:  #REDIRECT[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT\t:[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT\t[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT\n\n[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT\n [[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT\n:\n[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT\n:[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT\n[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT \n[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT  [[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT : [[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT :[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT [[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT:\t[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT:\n[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT: [[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT:[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #REDIRECT[[alpha]]\n\nbeta
+node: [Redirect(alpha), Text(beta)]
+warn: [Warning(TextAfterRedirect)]
+
+case: #REDIRECT[[alpha]]\n beta
+node: [Redirect(alpha), Text(beta)]
+warn: [Warning(TextAfterRedirect)]
+
+case: #REDIRECT[[alpha]]\nbeta
+node: [Redirect(alpha), Text(beta)]
+warn: [Warning(TextAfterRedirect)]
+
+case: #REDIRECT[[alpha]] \nbeta
+node: [Redirect(alpha), Text(beta)]
+warn: [Warning(TextAfterRedirect)]
+
+case: #REDIRECT[[alpha]]  beta
+node: [Redirect(alpha), Text(beta)]
+warn: [Warning(TextAfterRedirect)]
+
+case: #REDIRECT[[alpha]] beta
+node: [Redirect(alpha), Text(beta)]
+warn: [Warning(TextAfterRedirect)]
+
+case: #REDIRECT[[alpha]]''beta
+node: [Redirect(alpha), Italic, Text(beta)]
+warn: [Warning(TextAfterRedirect)]
+
+case: #REDIRECT[[alpha]]beta
+node: [Redirect(alpha), Text(beta)]
+warn: [Warning(TextAfterRedirect)]
+
+case: #REDIRECT[[alpha|]]
+node: [Redirect(alpha)]
+warn: [Warning(UselessTextInRedirect)]
+
+case: #REDIRECT[[alpha|]]beta
+node: [Redirect(alpha), Text(beta)]
+warn: [Warning(UselessTextInRedirect), Warning(TextAfterRedirect)]
+
+case: #REDIRECT[[alpha|beta\ngamma]]
+node: [OrderedList([ListItem([Text(REDIRECT), Link(alpha, [Text(beta\ngamma)])])])]
+warn: [Warning(UselessTextInRedirect)]
+
+case: #REDIRECT[[alpha|beta]]
+node: [Redirect(alpha)]
+warn: [Warning(UselessTextInRedirect)]
+
+case: #REDIRECT[[alpha|beta]]=gamma=
+node: [Redirect(alpha), Heading(1, [Text(gamma)])]
+warn: [Warning(UselessTextInRedirect), Warning(TextAfterRedirect)]
+
+case: #REDIRECT[[alpha|beta]]gamma
+node: [Redirect(alpha), Text(gamma)]
+warn: [Warning(UselessTextInRedirect), Warning(TextAfterRedirect)]
+
+case: #ReDiReCt[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #rEdIrEcT[[alpha]]
+node: [Redirect(alpha)]
+warn: []
+
+case: #redirect[[alpha]]
+node: [Redirect(alpha)]
+warn: []

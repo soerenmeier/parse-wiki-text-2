@@ -1,0 +1,87 @@
+case:  alpha\n {|\n beta\n |}\n gamma
+node: [Preformatted([Text(alpha)]), Text(beta), Table {attributes: [], captions: [], rows: []}, Preformatted([Text(gamma)])]
+warn: [Warning(StrayTextInTable)]
+
+case:  alpha\n {|\n|}
+node: [Preformatted([Text(alpha)]), Table {attributes: [], captions: [], rows: []}]
+warn: []
+
+case:  alpha\n |}
+node: [Preformatted([Text(alpha\n), Text(|})])]
+warn: []
+
+case:  alpha\n |}\n beta
+node: [Preformatted([Text(alpha\n), Text(|}\n), Text(beta)])]
+warn: []
+
+case:  {|\n alpha\n |}
+node: [Text(alpha), Table {attributes: [], captions: [], rows: []}]
+warn: [Warning(StrayTextInTable)]
+
+case:  {|\n alpha\n|}
+node: [Text(alpha), Table {attributes: [], captions: [], rows: []}]
+warn: [Warning(StrayTextInTable)]
+
+case: *\n  alpha\n*
+node: [UnorderedList([ListItem([])]), Preformatted([Text( alpha)]), UnorderedList([ListItem([])])]
+warn: []
+
+case: ----\t\n*
+node: [HorizontalDivider, UnorderedList([ListItem([])])]
+warn: []
+
+case: ----\n\n*
+node: [HorizontalDivider, UnorderedList([ListItem([])])]
+warn: []
+
+case: ----\n*
+node: [HorizontalDivider, UnorderedList([ListItem([])])]
+warn: []
+
+case: ----\n*\nalpha
+node: [HorizontalDivider, UnorderedList([ListItem([])]), Text(alpha)]
+warn: []
+
+case: ---- \n*
+node: [HorizontalDivider, UnorderedList([ListItem([])])]
+warn: []
+
+case: <ref><!--
+node: [Text(<ref>), Comment]
+warn: [Warning(MissingEndTagRewinding)]
+
+case: =alpha=\n\n----
+node: [Heading(1, [Text(alpha)]), HorizontalDivider]
+warn: []
+
+case: =alpha=\n----
+node: [Heading(1, [Text(alpha)]), HorizontalDivider]
+warn: []
+
+case: {{alpha|<!--
+node: [Text({{alpha|), Comment]
+warn: [Warning(MissingEndTagRewinding)]
+
+case: {|\n alpha\n |}
+node: [Text(alpha), Table {attributes: [], captions: [], rows: []}]
+warn: [Warning(StrayTextInTable)]
+
+case: {|\n alpha\n|}
+node: [Text(alpha), Table {attributes: [], captions: [], rows: []}]
+warn: [Warning(StrayTextInTable)]
+
+case: {|\n|}\t\n*
+node: [Table {attributes: [], captions: [], rows: []}, UnorderedList([ListItem([])])]
+warn: []
+
+case: {|\n|}\n*
+node: [Table {attributes: [], captions: [], rows: []}, UnorderedList([ListItem([])])]
+warn: []
+
+case: {|\n|}\n*\nalpha
+node: [Table {attributes: [], captions: [], rows: []}, UnorderedList([ListItem([])]), Text(alpha)]
+warn: []
+
+case: {|\n|} \n*
+node: [Table {attributes: [], captions: [], rows: []}, UnorderedList([ListItem([])])]
+warn: []

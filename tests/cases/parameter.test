@@ -1,0 +1,151 @@
+case: *alpha}}}
+node: [UnorderedList([ListItem([Text(alpha}}})])])]
+warn: [Warning(UnexpectedEndTag)]
+
+case: [[alpha|beta}}}]]
+node: [Link(alpha, [Text(beta}}})])]
+warn: [Warning(UnexpectedEndTag)]
+
+case: {{{
+node: [Text({{{)]
+warn: [Warning(MissingEndTagRewinding), Warning(MissingEndTagRewinding)]
+
+case: {{{\talpha}}}
+node: [Parameter(, [Text(alpha)])]
+warn: []
+
+case: {{{\nalpha}}}
+node: [Parameter(, [Text(alpha)])]
+warn: []
+
+case: {{{''}}}
+node: [Parameter(, [Italic])]
+warn: []
+
+case: {{{[[alpha|beta}}}
+node: [Parameter([Text(beta)], [Text([[alpha)])]
+warn: [Warning(UnexpectedEndTagRewinding)]
+
+case: {{{alpha\t|beta}}}
+node: [Parameter([Text(beta)], [Text(alpha)])]
+warn: []
+
+case: {{{alpha\t}}}
+node: [Parameter(, [Text(alpha)])]
+warn: []
+
+case: {{{alpha\n|beta}}}
+node: [Parameter([Text(beta)], [Text(alpha)])]
+warn: []
+
+case: {{{alpha\n}}}
+node: [Parameter(, [Text(alpha)])]
+warn: []
+
+case: {{{alpha |beta}}}
+node: [Parameter([Text(beta)], [Text(alpha)])]
+warn: []
+
+case: {{{alpha }}}
+node: [Parameter(, [Text(alpha)])]
+warn: []
+
+case: {{{alpha|
+node: [Text({{{alpha|)]
+warn: [Warning(MissingEndTagRewinding), Warning(MissingEndTagRewinding)]
+
+case: {{{alpha|\tbeta}}}
+node: [Parameter([Text(\tbeta)], [Text(alpha)])]
+warn: []
+
+case: {{{alpha|\t|}}}
+node: [Parameter([Text(\t)], [Text(alpha)])]
+warn: [Warning(UselessTextInParameter)]
+
+case: {{{alpha|\t}}}
+node: [Parameter([Text(\t)], [Text(alpha)])]
+warn: []
+
+case: {{{alpha|\nbeta}}}
+node: [Parameter([Text(\nbeta)], [Text(alpha)])]
+warn: []
+
+case: {{{alpha|\n|}}}
+node: [Parameter([Text(\n)], [Text(alpha)])]
+warn: [Warning(UselessTextInParameter)]
+
+case: {{{alpha|\n}}}
+node: [Parameter([Text(\n)], [Text(alpha)])]
+warn: []
+
+case: {{{alpha| beta|}}}
+node: [Parameter([Text( beta)], [Text(alpha)])]
+warn: [Warning(UselessTextInParameter)]
+
+case: {{{alpha| |}}}
+node: [Parameter([Text( )], [Text(alpha)])]
+warn: [Warning(UselessTextInParameter)]
+
+case: {{{alpha| }}}
+node: [Parameter([Text( )], [Text(alpha)])]
+warn: []
+
+case: {{{alpha|beta\t|}}}
+node: [Parameter([Text(beta\t)], [Text(alpha)])]
+warn: [Warning(UselessTextInParameter)]
+
+case: {{{alpha|beta\n|}}}
+node: [Parameter([Text(beta\n)], [Text(alpha)])]
+warn: [Warning(UselessTextInParameter)]
+
+case: {{{alpha|beta |}}}
+node: [Parameter([Text(beta )], [Text(alpha)])]
+warn: [Warning(UselessTextInParameter)]
+
+case: {{{alpha|beta|
+node: [Text({{{alpha|beta|)]
+warn: [Warning(UselessTextInParameter), Warning(MissingEndTagRewinding), Warning(MissingEndTagRewinding)]
+
+case: {{{alpha|beta|\n}}}
+node: [Parameter([Text(beta)], [Text(alpha)])]
+warn: [Warning(UselessTextInParameter)]
+
+case: {{{alpha|beta|gamma}}}
+node: [Parameter([Text(beta)], [Text(alpha)])]
+warn: [Warning(UselessTextInParameter)]
+
+case: {{{alpha|beta|}}}
+node: [Parameter([Text(beta)], [Text(alpha)])]
+warn: [Warning(UselessTextInParameter)]
+
+case: {{{alpha|beta}}}
+node: [Parameter([Text(beta)], [Text(alpha)])]
+warn: []
+
+case: {{{alpha|}}}
+node: [Parameter([], [Text(alpha)])]
+warn: []
+
+case: {{{alpha}}}
+node: [Parameter(, [Text(alpha)])]
+warn: []
+
+case: {{{|''}}}
+node: [Parameter([Italic], [])]
+warn: []
+
+case: {{{||}}}
+node: [Parameter([], [])]
+warn: [Warning(UselessTextInParameter)]
+
+case: {{{|}}}
+node: [Parameter([], [])]
+warn: []
+
+case: {{{}}}
+node: [Parameter(, [])]
+warn: []
+
+case: }}}
+node: [Text(}}})]
+warn: [Warning(UnexpectedEndTag)]

@@ -1,0 +1,87 @@
+case: '
+node: [Text(')]
+warn: []
+
+case: ''
+node: [Italic]
+warn: []
+
+case: '''
+node: [Bold]
+warn: []
+
+case: ''''
+node: [Bold, Text(')]
+warn: []
+
+case: '''''
+node: [BoldItalic]
+warn: []
+
+case: ''''''
+node: [BoldItalic, Text(')]
+warn: []
+
+case: '''''''
+node: [BoldItalic, Text('')]
+warn: []
+
+case: ''''''''
+node: [BoldItalic, Text(''')]
+warn: []
+
+case: '''alpha
+node: [Bold, Text(alpha)]
+warn: []
+
+case: '''alpha''
+node: [Bold, Text(alpha), Italic]
+warn: []
+
+case: '''alpha'''
+node: [Bold, Text(alpha), Bold]
+warn: []
+
+case: ''alpha
+node: [Italic, Text(alpha)]
+warn: []
+
+case: ''alpha''
+node: [Italic, Text(alpha), Italic]
+warn: []
+
+case: ''alpha'''
+node: [Italic, Text(alpha), Bold]
+warn: []
+
+case: alpha''
+node: [Text(alpha), Italic]
+warn: []
+
+case: alpha'''
+node: [Text(alpha), Bold]
+warn: []
+
+case: alpha'''beta
+node: [Text(alpha), Bold, Text(beta)]
+warn: []
+
+case: alpha'''beta'''gamma
+node: [Text(alpha), Bold, Text(beta), Bold, Text(gamma)]
+warn: []
+
+case: alpha'''beta''gamma
+node: [Text(alpha), Bold, Text(beta), Italic, Text(gamma)]
+warn: []
+
+case: alpha''beta
+node: [Text(alpha), Italic, Text(beta)]
+warn: []
+
+case: alpha''beta'''gamma
+node: [Text(alpha), Italic, Text(beta), Bold, Text(gamma)]
+warn: []
+
+case: alpha''beta''gamma
+node: [Text(alpha), Italic, Text(beta), Italic, Text(gamma)]
+warn: []

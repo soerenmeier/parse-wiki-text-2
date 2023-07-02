@@ -1,0 +1,35 @@
+case: alpha\t\n\nbeta
+node: [Text(alpha), ParagraphBreak, Text(beta)]
+warn: []
+
+case: alpha\n\t\nbeta
+node: [Text(alpha), ParagraphBreak, Text(beta)]
+warn: []
+
+case: alpha\n\n\t beta
+node: [Text(alpha), ParagraphBreak, Text(beta)]
+warn: []
+
+case: alpha\n\n\tbeta
+node: [Text(alpha), ParagraphBreak, Text(beta)]
+warn: []
+
+case: alpha\n\n\n\nbeta
+node: [Text(alpha), ParagraphBreak, Text(beta)]
+warn: [Warning(RepeatedEmptyLine), Warning(RepeatedEmptyLine)]
+
+case: alpha\n\n\nbeta
+node: [Text(alpha), ParagraphBreak, Text(beta)]
+warn: [Warning(RepeatedEmptyLine)]
+
+case: alpha\n\nbeta
+node: [Text(alpha), ParagraphBreak, Text(beta)]
+warn: []
+
+case: alpha\n \nbeta
+node: [Text(alpha), ParagraphBreak, Text(beta)]
+warn: []
+
+case: alpha \n\nbeta
+node: [Text(alpha), ParagraphBreak, Text(beta)]
+warn: []

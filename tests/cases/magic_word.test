@@ -1,0 +1,59 @@
+case: __ALPHA__
+node: [Text(__ALPHA__)]
+warn: []
+
+case: __NOTC__ __TOC__
+node: [MagicWord, Text( ), MagicWord]
+warn: []
+
+case: __NOTC___TOC__
+node: [MagicWord, Text(_TOC__)]
+warn: []
+
+case: __NOTC____TOC__
+node: [MagicWord, MagicWord]
+warn: []
+
+case: __TOC_
+node: [Text(__TOC_)]
+warn: []
+
+case: __TOC__
+node: [MagicWord]
+warn: []
+
+case: __TOC__ alpha
+node: [MagicWord, Text( alpha)]
+warn: []
+
+case: __TOC__alpha
+node: [MagicWord, Text(alpha)]
+warn: []
+
+case: __ToC__
+node: [MagicWord]
+warn: []
+
+case: __tOc__
+node: [MagicWord]
+warn: []
+
+case: __toc__
+node: [MagicWord]
+warn: []
+
+case: alpha __TOC__
+node: [Text(alpha ), MagicWord]
+warn: []
+
+case: alpha __TOC__ beta
+node: [Text(alpha ), MagicWord, Text( beta)]
+warn: []
+
+case: alpha__TOC__
+node: [Text(alpha), MagicWord]
+warn: []
+
+case: alpha__TOC__beta
+node: [Text(alpha), MagicWord, Text(beta)]
+warn: []

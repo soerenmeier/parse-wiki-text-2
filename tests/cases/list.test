@@ -1,0 +1,331 @@
+case: #
+node: [OrderedList([ListItem([])])]
+warn: []
+
+case: #\n\n\nalpha
+node: [OrderedList([ListItem([])]), Text(alpha)]
+warn: [Warning(RepeatedEmptyLine)]
+
+case: #\n\nalpha
+node: [OrderedList([ListItem([])]), Text(alpha)]
+warn: []
+
+case: #\n#
+node: [OrderedList([ListItem([]), ListItem([])])]
+warn: []
+
+case: #\n##
+node: [OrderedList([ListItem([OrderedList([ListItem([])])])])]
+warn: []
+
+case: #\n##\n#
+node: [OrderedList([ListItem([OrderedList([ListItem([])])]), ListItem([])])]
+warn: []
+
+case: #\n*
+node: [OrderedList([ListItem([])]), UnorderedList([ListItem([])])]
+warn: []
+
+case: #\n:
+node: [OrderedList([ListItem([])]), DefinitionList([DefinitionListItem(Details, [])])]
+warn: []
+
+case: #\n;
+node: [OrderedList([ListItem([])]), DefinitionList([DefinitionListItem(Term, [])])]
+warn: []
+
+case: #\nalpha
+node: [OrderedList([ListItem([])]), Text(alpha)]
+warn: []
+
+case: # alpha
+node: [OrderedList([ListItem([Text(alpha)])])]
+warn: []
+
+case: ##
+node: [OrderedList([ListItem([OrderedList([ListItem([])])])])]
+warn: []
+
+case: ##\n#
+node: [OrderedList([ListItem([OrderedList([ListItem([])])]), ListItem([])])]
+warn: []
+
+case: ##\n#\n##
+node: [OrderedList([ListItem([OrderedList([ListItem([])])]), ListItem([OrderedList([ListItem([])])])])]
+warn: []
+
+case: ##\n##
+node: [OrderedList([ListItem([OrderedList([ListItem([]), ListItem([])])])])]
+warn: []
+
+case: #=alpha=
+node: [OrderedList([ListItem([Text(=alpha=)])])]
+warn: []
+
+case: #alpha
+node: [OrderedList([ListItem([Text(alpha)])])]
+warn: []
+
+case: #alpha\n#beta
+node: [OrderedList([ListItem([Text(alpha)]), ListItem([Text(beta)])])]
+warn: []
+
+case: *
+node: [UnorderedList([ListItem([])])]
+warn: []
+
+case: *\n\nalpha
+node: [UnorderedList([ListItem([])]), Text(alpha)]
+warn: []
+
+case: *\n#
+node: [UnorderedList([ListItem([])]), OrderedList([ListItem([])])]
+warn: []
+
+case: *\n*
+node: [UnorderedList([ListItem([]), ListItem([])])]
+warn: []
+
+case: *\n**
+node: [UnorderedList([ListItem([UnorderedList([ListItem([])])])])]
+warn: []
+
+case: *\n**\n*
+node: [UnorderedList([ListItem([UnorderedList([ListItem([])])]), ListItem([])])]
+warn: []
+
+case: *\n:
+node: [UnorderedList([ListItem([])]), DefinitionList([DefinitionListItem(Details, [])])]
+warn: []
+
+case: *\n;
+node: [UnorderedList([ListItem([])]), DefinitionList([DefinitionListItem(Term, [])])]
+warn: []
+
+case: *\nalpha
+node: [UnorderedList([ListItem([])]), Text(alpha)]
+warn: []
+
+case: * alpha
+node: [UnorderedList([ListItem([Text(alpha)])])]
+warn: []
+
+case: * alpha\n* beta
+node: [UnorderedList([ListItem([Text(alpha)]), ListItem([Text(beta)])])]
+warn: []
+
+case: **
+node: [UnorderedList([ListItem([UnorderedList([ListItem([])])])])]
+warn: []
+
+case: **\n*
+node: [UnorderedList([ListItem([UnorderedList([ListItem([])])]), ListItem([])])]
+warn: []
+
+case: **\n*\n**
+node: [UnorderedList([ListItem([UnorderedList([ListItem([])])]), ListItem([UnorderedList([ListItem([])])])])]
+warn: []
+
+case: **\n**
+node: [UnorderedList([ListItem([UnorderedList([ListItem([]), ListItem([])])])])]
+warn: []
+
+case: *;\n*;
+node: [UnorderedList([ListItem([DefinitionList([DefinitionListItem(Term, []), DefinitionListItem(Term, [])])])])]
+warn: []
+
+case: *;\n*;*
+node: [UnorderedList([ListItem([DefinitionList([DefinitionListItem(Term, [])]), DefinitionList([DefinitionListItem(Term, [UnorderedList([ListItem([])])])])])])]
+warn: [Warning(DefinitionTermContinuation)]
+
+case: *;*\n*;
+node: [UnorderedList([ListItem([DefinitionList([DefinitionListItem(Term, [UnorderedList([ListItem([])])])]), DefinitionList([DefinitionListItem(Term, [])])])])]
+warn: [Warning(DefinitionTermContinuation)]
+
+case: *;*\n*;#
+node: [UnorderedList([ListItem([DefinitionList([DefinitionListItem(Term, [UnorderedList([ListItem([])])])]), DefinitionList([DefinitionListItem(Term, [OrderedList([ListItem([])])])])])])]
+warn: [Warning(DefinitionTermContinuation)]
+
+case: *=alpha=
+node: [UnorderedList([ListItem([Text(=alpha=)])])]
+warn: []
+
+case: *alpha
+node: [UnorderedList([ListItem([Text(alpha)])])]
+warn: []
+
+case: *alpha\n*beta
+node: [UnorderedList([ListItem([Text(alpha)]), ListItem([Text(beta)])])]
+warn: []
+
+case: :
+node: [DefinitionList([DefinitionListItem(Details, [])])]
+warn: []
+
+case: :\n\nalpha
+node: [DefinitionList([DefinitionListItem(Details, [])]), Text(alpha)]
+warn: []
+
+case: :\n#
+node: [DefinitionList([DefinitionListItem(Details, [])]), OrderedList([ListItem([])])]
+warn: []
+
+case: :\n*
+node: [DefinitionList([DefinitionListItem(Details, [])]), UnorderedList([ListItem([])])]
+warn: []
+
+case: :\n:
+node: [DefinitionList([DefinitionListItem(Details, []), DefinitionListItem(Details, [])])]
+warn: []
+
+case: :\n::
+node: [DefinitionList([DefinitionListItem(Details, [DefinitionList([DefinitionListItem(Details, [])])])])]
+warn: []
+
+case: :\n::\n:
+node: [DefinitionList([DefinitionListItem(Details, [DefinitionList([DefinitionListItem(Details, [])])]), DefinitionListItem(Details, [])])]
+warn: []
+
+case: :\n;
+node: [DefinitionList([DefinitionListItem(Details, []), DefinitionListItem(Term, [])])]
+warn: []
+
+case: :\nalpha
+node: [DefinitionList([DefinitionListItem(Details, [])]), Text(alpha)]
+warn: []
+
+case: : alpha
+node: [DefinitionList([DefinitionListItem(Details, [Text(alpha)])])]
+warn: []
+
+case: ::
+node: [DefinitionList([DefinitionListItem(Details, [DefinitionList([DefinitionListItem(Details, [])])])])]
+warn: []
+
+case: ::\n:
+node: [DefinitionList([DefinitionListItem(Details, [DefinitionList([DefinitionListItem(Details, [])])]), DefinitionListItem(Details, [])])]
+warn: []
+
+case: ::\n:\n::
+node: [DefinitionList([DefinitionListItem(Details, [DefinitionList([DefinitionListItem(Details, [])])]), DefinitionListItem(Details, [DefinitionList([DefinitionListItem(Details, [])])])])]
+warn: []
+
+case: ::\n::
+node: [DefinitionList([DefinitionListItem(Details, [DefinitionList([DefinitionListItem(Details, []), DefinitionListItem(Details, [])])])])]
+warn: []
+
+case: :=alpha=
+node: [DefinitionList([DefinitionListItem(Details, [Text(=alpha=)])])]
+warn: []
+
+case: :alpha
+node: [DefinitionList([DefinitionListItem(Details, [Text(alpha)])])]
+warn: []
+
+case: :alpha\nbeta
+node: [DefinitionList([DefinitionListItem(Details, [Text(alpha)])]), Text(beta)]
+warn: []
+
+case: ;
+node: [DefinitionList([DefinitionListItem(Term, [])])]
+warn: []
+
+case: ;\n\nalpha
+node: [DefinitionList([DefinitionListItem(Term, [])]), Text(alpha)]
+warn: []
+
+case: ;\n#
+node: [DefinitionList([DefinitionListItem(Term, [])]), OrderedList([ListItem([])])]
+warn: []
+
+case: ;\n*
+node: [DefinitionList([DefinitionListItem(Term, [])]), UnorderedList([ListItem([])])]
+warn: []
+
+case: ;\n:
+node: [DefinitionList([DefinitionListItem(Term, []), DefinitionListItem(Details, [])])]
+warn: []
+
+case: ;\n;;
+node: [DefinitionList([DefinitionListItem(Term, [])]), DefinitionList([DefinitionListItem(Term, [DefinitionList([DefinitionListItem(Term, [])])])])]
+warn: [Warning(DefinitionTermContinuation)]
+
+case: ;\n;;\n;
+node: [DefinitionList([DefinitionListItem(Term, [])]), DefinitionList([DefinitionListItem(Term, [DefinitionList([DefinitionListItem(Term, [])])])]), DefinitionList([DefinitionListItem(Term, [])])]
+warn: [Warning(DefinitionTermContinuation), Warning(DefinitionTermContinuation)]
+
+case: ;\nalpha
+node: [DefinitionList([DefinitionListItem(Term, [])]), Text(alpha)]
+warn: []
+
+case: ; alpha
+node: [DefinitionList([DefinitionListItem(Term, [Text(alpha)])])]
+warn: []
+
+case: ;;
+node: [DefinitionList([DefinitionListItem(Term, [DefinitionList([DefinitionListItem(Term, [])])])])]
+warn: []
+
+case: ;;\n;
+node: [DefinitionList([DefinitionListItem(Term, [DefinitionList([DefinitionListItem(Term, [])])])]), DefinitionList([DefinitionListItem(Term, [])])]
+warn: [Warning(DefinitionTermContinuation)]
+
+case: ;;\n;\n;;
+node: [DefinitionList([DefinitionListItem(Term, [DefinitionList([DefinitionListItem(Term, [])])])]), DefinitionList([DefinitionListItem(Term, [])]), DefinitionList([DefinitionListItem(Term, [DefinitionList([DefinitionListItem(Term, [])])])])]
+warn: [Warning(DefinitionTermContinuation), Warning(DefinitionTermContinuation)]
+
+case: ;;\n;;
+node: [DefinitionList([DefinitionListItem(Term, [DefinitionList([DefinitionListItem(Term, []), DefinitionListItem(Term, [])])])])]
+warn: []
+
+case: ;=alpha=
+node: [DefinitionList([DefinitionListItem(Term, [Text(=alpha=)])])]
+warn: []
+
+case: ;alpha
+node: [DefinitionList([DefinitionListItem(Term, [Text(alpha)])])]
+warn: []
+
+case: ;alpha\nbeta
+node: [DefinitionList([DefinitionListItem(Term, [Text(alpha)])]), Text(beta)]
+warn: []
+
+case: alpha\t\n#
+node: [Text(alpha), OrderedList([ListItem([])])]
+warn: []
+
+case: alpha\n#
+node: [Text(alpha), OrderedList([ListItem([])])]
+warn: []
+
+case: alpha\n#\nbeta
+node: [Text(alpha), OrderedList([ListItem([])]), Text(beta)]
+warn: []
+
+case: alpha\n*
+node: [Text(alpha), UnorderedList([ListItem([])])]
+warn: []
+
+case: alpha\n*\nbeta
+node: [Text(alpha), UnorderedList([ListItem([])]), Text(beta)]
+warn: []
+
+case: alpha\n:
+node: [Text(alpha), DefinitionList([DefinitionListItem(Details, [])])]
+warn: []
+
+case: alpha\n:\nbeta
+node: [Text(alpha), DefinitionList([DefinitionListItem(Details, [])]), Text(beta)]
+warn: []
+
+case: alpha\n;
+node: [Text(alpha), DefinitionList([DefinitionListItem(Term, [])])]
+warn: []
+
+case: alpha\n;\nbeta
+node: [Text(alpha), DefinitionList([DefinitionListItem(Term, [])]), Text(beta)]
+warn: []
+
+case: alpha \n#
+node: [Text(alpha), OrderedList([ListItem([])])]
+warn: []

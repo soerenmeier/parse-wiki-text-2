@@ -1,0 +1,191 @@
+case: </BR>
+node: [EndTag(br)]
+warn: []
+
+case: </Br>
+node: [EndTag(br)]
+warn: []
+
+case: </alpha
+node: [Text(</alpha)]
+warn: [Warning(UnrecognizedTagName)]
+
+case: </alpha>
+node: [Text(</alpha>)]
+warn: [Warning(UnrecognizedTagName)]
+
+case: </b
+node: [Text(</b)]
+warn: [Warning(InvalidTagSyntax)]
+
+case: </b alpha>
+node: [EndTag(b)]
+warn: []
+
+case: </b alpha>beta
+node: [EndTag(b), Text(beta)]
+warn: []
+
+case: </b</b>
+node: [Text(</b), EndTag(b)]
+warn: []
+
+case: </b<b>
+node: [Text(</b), StartTag(b)]
+warn: []
+
+case: </b>
+node: [EndTag(b)]
+warn: []
+
+case: </b> alpha
+node: [EndTag(b), Text( alpha)]
+warn: []
+
+case: </b>alpha
+node: [EndTag(b), Text(alpha)]
+warn: []
+
+case: </br\t>
+node: [EndTag(br)]
+warn: []
+
+case: </br\n>
+node: [EndTag(br)]
+warn: []
+
+case: </br >
+node: [EndTag(br)]
+warn: []
+
+case: </br>
+node: [EndTag(br)]
+warn: []
+
+case: </ref
+node: [Text(</ref)]
+warn: [Warning(InvalidTagSyntax)]
+
+case: <BR>
+node: [StartTag(br)]
+warn: []
+
+case: <Br>
+node: [StartTag(br)]
+warn: []
+
+case: <alpha
+node: [Text(<alpha)]
+warn: [Warning(UnrecognizedTagName)]
+
+case: <alpha>
+node: [Text(<alpha>)]
+warn: [Warning(UnrecognizedTagName)]
+
+case: <b
+node: [Text(<b)]
+warn: [Warning(InvalidTagSyntax)]
+
+case: <b alpha>
+node: [StartTag(b)]
+warn: []
+
+case: <b alpha>beta
+node: [StartTag(b), Text(beta)]
+warn: []
+
+case: <b</b>
+node: [Text(<b), EndTag(b)]
+warn: [Warning(UnrecognizedTagName)]
+
+case: <b<b>
+node: [Text(<b), StartTag(b)]
+warn: [Warning(UnrecognizedTagName)]
+
+case: <b>
+node: [StartTag(b)]
+warn: []
+
+case: <b> alpha
+node: [StartTag(b), Text( alpha)]
+warn: []
+
+case: <b>alpha
+node: [StartTag(b), Text(alpha)]
+warn: []
+
+case: <br\t>
+node: [StartTag(br)]
+warn: []
+
+case: <br\n>
+node: [StartTag(br)]
+warn: []
+
+case: <br >
+node: [StartTag(br)]
+warn: []
+
+case: <br>
+node: [StartTag(br)]
+warn: []
+
+case: <r<ref>alpha</ref>beta
+node: [Text(<r), Tag(ref, [Text(alpha)]), Text(beta)]
+warn: [Warning(UnrecognizedTagName)]
+
+case: <ref
+node: [Text(<ref)]
+warn: [Warning(InvalidTagSyntax)]
+
+case: <ref />
+node: [Tag(ref, [])]
+warn: []
+
+case: <ref >
+node: [Text(<ref >)]
+warn: [Warning(MissingEndTagRewinding)]
+
+case: <ref/>
+node: [Tag(ref, [])]
+warn: []
+
+case: <ref>
+node: [Text(<ref>)]
+warn: [Warning(MissingEndTagRewinding)]
+
+case: <ref>\talpha</ref>
+node: [Tag(ref, [Text(\talpha)])]
+warn: []
+
+case: <ref>\nalpha</ref>
+node: [Tag(ref, [Text(\nalpha)])]
+warn: []
+
+case: <ref> alpha</ref>
+node: [Tag(ref, [Text( alpha)])]
+warn: []
+
+case: <ref></ref>
+node: [Tag(ref, [])]
+warn: []
+
+case: <ref>alpha\t</ref>
+node: [Tag(ref, [Text(alpha\t)])]
+warn: []
+
+case: <ref>alpha\n</ref>
+node: [Tag(ref, [Text(alpha\n)])]
+warn: []
+
+case: <ref>alpha </ref>
+node: [Tag(ref, [Text(alpha )])]
+warn: []
+
+case: <ref>alpha</ref>
+node: [Tag(ref, [Text(alpha)])]
+warn: []
+
+case: alpha<b>
+node: [Text(alpha), StartTag(b)]
+warn: []

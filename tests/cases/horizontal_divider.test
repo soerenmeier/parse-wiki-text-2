@@ -1,0 +1,71 @@
+case: ----
+node: [HorizontalDivider]
+warn: []
+
+case: ----\t\nalpha
+node: [HorizontalDivider, Text(alpha)]
+warn: []
+
+case: ----\n\n\n----
+node: [HorizontalDivider, HorizontalDivider]
+warn: [Warning(RepeatedEmptyLine)]
+
+case: ----\n\n\nalpha
+node: [HorizontalDivider, Text(alpha)]
+warn: [Warning(RepeatedEmptyLine)]
+
+case: ----\n\n----
+node: [HorizontalDivider, HorizontalDivider]
+warn: []
+
+case: ----\n\nalpha
+node: [HorizontalDivider, Text(alpha)]
+warn: []
+
+case: ----\n----
+node: [HorizontalDivider, HorizontalDivider]
+warn: []
+
+case: ----\nalpha
+node: [HorizontalDivider, Text(alpha)]
+warn: []
+
+case: ---- \nalpha
+node: [HorizontalDivider, Text(alpha)]
+warn: []
+
+case: -----
+node: [HorizontalDivider]
+warn: []
+
+case: ------
+node: [HorizontalDivider]
+warn: []
+
+case: ----alpha
+node: [HorizontalDivider, Text(alpha)]
+warn: []
+
+case: alpha\t\n----
+node: [Text(alpha), HorizontalDivider]
+warn: []
+
+case: alpha\n\n\n----
+node: [Text(alpha), HorizontalDivider]
+warn: [Warning(RepeatedEmptyLine)]
+
+case: alpha\n\n----
+node: [Text(alpha), HorizontalDivider]
+warn: []
+
+case: alpha\n \n----
+node: [Text(alpha), HorizontalDivider]
+warn: []
+
+case: alpha\n----
+node: [Text(alpha), HorizontalDivider]
+warn: []
+
+case: alpha \n----
+node: [Text(alpha), HorizontalDivider]
+warn: []
