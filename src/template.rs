@@ -236,8 +236,13 @@ pub fn parse_template_separator(state: &mut crate::State) {
 	}
 }
 
+/// expects scan_position and scan_position + 1 to be a curly brace
 pub fn parse_template_start(state: &mut crate::State) {
 	let scan_position = state.scan_position;
+	debug_assert_eq!(state.get_byte(scan_position), Some(b'{'));
+	debug_assert_eq!(state.get_byte(scan_position + 1), Some(b'{'));
+
+	// if the template has three braces it is a parameter
 	if state.get_byte(state.scan_position + 2) == Some(b'{') {
 		let position = state.skip_whitespace_forwards(scan_position + 3);
 		state.push_open_node(

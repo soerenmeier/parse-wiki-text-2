@@ -15,6 +15,7 @@ pub fn parse<'a>(
 		warnings: vec![],
 		wiki_text,
 	};
+	// parse redirects and warn about repeated newlines
 	{
 		let mut has_line_break = false;
 		let mut position = 0;
@@ -54,6 +55,8 @@ pub fn parse<'a>(
 				if state.scan_position < state.wiki_text.len() {
 					continue;
 				}
+
+				// rewind until we find a text node
 				if let Some(crate::OpenNode { nodes, start, .. }) =
 					state.stack.pop()
 				{
@@ -67,12 +70,8 @@ pub fn parse<'a>(
 					break;
 				}
 			}
-			Some(0) | Some(1) | Some(2) | Some(3) | Some(4) | Some(5)
-			| Some(6) | Some(7) | Some(8) | Some(11) | Some(12) | Some(13)
-			| Some(14) | Some(15) | Some(16) | Some(17) | Some(18)
-			| Some(19) | Some(20) | Some(21) | Some(22) | Some(23)
-			| Some(24) | Some(25) | Some(26) | Some(27) | Some(28)
-			| Some(29) | Some(30) | Some(31) | Some(127) => {
+			// invalid characters
+			Some(0..=8 | 11..=31 | 127) => {
 				state.warnings.push(crate::Warning {
 					end: state.scan_position + 1,
 					message: crate::WarningMessage::InvalidCharacter,

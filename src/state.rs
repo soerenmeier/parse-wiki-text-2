@@ -105,10 +105,12 @@ impl<'a> State<'a> {
 	pub fn rewind(&mut self, nodes: Vec<crate::Node<'a>>, position: usize) {
 		self.scan_position = position + 1;
 		self.nodes = nodes;
-		if let Some(position_before_text) = match self.nodes.last() {
+
+		let last_text_node_start = match self.nodes.last() {
 			Some(crate::Node::Text { start, .. }) => Some(*start),
 			_ => None,
-		} {
+		};
+		if let Some(position_before_text) = last_text_node_start {
 			self.nodes.pop();
 			self.flushed_position = position_before_text;
 		} else {
@@ -155,26 +157,48 @@ pub fn flush<'a>(
 	}
 }
 
-pub fn skip_whitespace_backwards(
-	wiki_text: &str,
-	mut position: usize,
-) -> usize {
-	while position > 0
-		&& match wiki_text.as_bytes()[position - 1] {
-			b'\t' | b'\n' | b' ' => true,
-			_ => false,
-		} {
-		position -= 1;
-	}
-	position
+pub fn skip_whitespace_backwards(wiki_text: &str, position: usize) -> usize {
+	let slice = wiki_text.as_bytes().get(..position).unwrap_or(&[]);
+
+	let non_whitespace_position = slice
+		.iter()
+		.rev()
+		.position(|b| !matches!(b, b'\t' | b'\n' | b' '))
+		.unwrap_or(slice.len());
+
+	position - non_whitespace_position
 }
 
-pub fn skip_whitespace_forwards(wiki_text: &str, mut position: usize) -> usize {
-	while match wiki_text.as_bytes().get(position).cloned() {
-		Some(b'\t') | Some(b'\n') | Some(b' ') => true,
-		_ => false,
-	} {
-		position += 1;
+pub fn skip_whitespace_forwards(wiki_text: &str, position: usize) -> usize {
+	let slice = wiki_text.as_bytes().get(position..).unwrap_or(&[]);
+
+	let non_whitespace_position = slice
+		.iter()
+		.position(|b| !matches!(b, b'\t' | b'\n' | b' '))
+		.unwrap_or(slice.len());
+
+	position + non_whitespace_position
+}
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+
+	#[test]
+	fn test_skip_whitespace_backwards() {
+		assert_eq!(skip_whitespace_backwards("0\n2", 2), 1);
+		assert_eq!(skip_whitespace_backwards("\n\n", 2), 0);
+		assert_eq!(skip_whitespace_backwards("\n\n", 1), 0);
+		assert_eq!(skip_whitespace_backwards("1\n\n", 2), 1);
+		assert_eq!(skip_whitespace_backwards("\n1\n", 2), 2);
 	}
-	position
+
+	#[test]
+	fn test_skip_whitespace_forwards() {
+		assert_eq!(skip_whitespace_forwards("\n\n", 0), 2);
+		assert_eq!(skip_whitespace_forwards("1\n\n", 0), 0);
+		assert_eq!(skip_whitespace_forwards("1 \n1", 1), 3);
+		assert_eq!(skip_whitespace_forwards("1 \n1", 6), 6);
+		assert_eq!(skip_whitespace_forwards("1 \n1", 0), 0);
+	}
 }
