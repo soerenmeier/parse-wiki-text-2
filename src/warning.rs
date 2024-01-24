@@ -70,6 +70,9 @@ pub enum WarningMessage {
 
 	/// Useless text in redirect.
 	UselessTextInRedirect,
+
+	/// Unexpected table row separator inside template
+	UnexpectedTableRowSeparatorInsideTemplate,
 }
 
 impl WarningMessage {
@@ -115,6 +118,9 @@ impl WarningMessage {
 			WarningMessage::UselessTextInRedirect => {
 				"Useless text in redirect."
 			}
+			WarningMessage::UnexpectedTableRowSeparatorInsideTemplate => {
+                "Unepexted table row separator inside template. Closing template implicitly"
+            }
 		}
 	}
 }

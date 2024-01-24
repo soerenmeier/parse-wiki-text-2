@@ -263,3 +263,100 @@ pub fn parse_template_start(state: &mut crate::State) {
 		);
 	}
 }
+
+/// This function is similar to the `parse_template_end` function, except that:
+/// - it does not advance the scan position
+/// - it must emit a warning
+/// It is to be used in contexts where an article contains an unclosed template
+/// that needs to be closed before we proceed with the rest of the document. Unclosed templates are closed implcitly when the element at
+/// the top of the stack is an open template and a closing boundary is found.
+/// In the current state of things, only table rows act as an implicit closing boundary for templates: i.e. open templates inside of table rows
+/// are closed when the next table row element `|-` is found.
+///
+/// In future implementation, other boundaries might exist.
+pub fn close_template_implicitly(
+	state: &mut super::State,
+	message: crate::WarningMessage,
+) {
+	state.warnings.push(super::Warning {
+		end: state.scan_position + 1,
+		start: state.scan_position,
+		message,
+	});
+
+	match state.stack.last() {
+		Some(super::OpenNode {
+			type_: super::OpenNodeType::Parameter { .. },
+			..
+		}) => {
+			if let Some(super::OpenNode {
+				nodes,
+				start,
+				type_: super::OpenNodeType::Parameter { default, name },
+			}) = state.stack.pop()
+			{
+				if let Some(name) = name {
+					let start_position = state.scan_position;
+					state.flush(start_position);
+					let nodes = std::mem::replace(&mut state.nodes, nodes);
+					state.nodes.push(super::Node::Parameter {
+						default: Some(default.unwrap_or(nodes)),
+						end: state.scan_position,
+						name,
+						start,
+					});
+				} else {
+					let start_position =
+						state.skip_whitespace_backwards(state.scan_position);
+					state.flush(start_position);
+					let nodes = std::mem::replace(&mut state.nodes, nodes);
+					state.nodes.push(super::Node::Parameter {
+						default: None,
+						end: state.scan_position,
+						name: nodes,
+						start,
+					});
+				}
+				state.flushed_position = state.scan_position;
+			}
+		}
+		Some(super::OpenNode {
+			type_: super::OpenNodeType::Template { .. },
+			..
+		}) => {
+			if let Some(super::OpenNode {
+				nodes,
+				start,
+				type_:
+					super::OpenNodeType::Template {
+						name,
+						mut parameters,
+					},
+			}) = state.stack.pop()
+			{
+				let position =
+					state.skip_whitespace_backwards(state.scan_position);
+				state.flush(position);
+				state.flushed_position = state.scan_position;
+				let name = match name {
+					None => std::mem::replace(&mut state.nodes, nodes),
+					Some(name) => {
+						let parameters_length = parameters.len();
+						let parameter = &mut parameters[parameters_length - 1];
+						parameter.end = position;
+						parameter.value =
+							std::mem::replace(&mut state.nodes, nodes);
+						name
+					}
+				};
+				state.nodes.push(super::Node::Template {
+					end: state.scan_position,
+					name,
+					parameters,
+					start,
+				});
+			}
+		}
+		_ => unreachable!(),
+	}
+}

@@ -196,7 +196,19 @@ pub fn parse<'a>(
 					type_: crate::OpenNodeType::Parameter { default: None, .. },
 					..
 				}) => {
-					crate::template::parse_parameter_separator(&mut state);
+					// If we find a table row separator (`|-`) while the element of the top of the stack if an open template or template parameter,
+					// we assume that the template closes implictly right before table row element, and finish processing the open template.
+					// This fixes a bug where we would spend a lot of CPU power on this article, and we had to rewind all the parsing at the end of the document.
+					// A Github issue related to this problem can be found here https://github.com/soerenmeier/parse-wiki-text-2/issues/1.
+					if state.get_byte(state.scan_position + 1) == Some(b'-') {
+						super::template::close_template_implicitly(
+                            &mut state,
+                            super::WarningMessage::UnexpectedTableRowSeparatorInsideTemplate,
+                        );
+						super::table::parse_inline_token(&mut state);
+					} else {
+						super::template::parse_parameter_separator(&mut state);
+					}
 				}
 				Some(crate::OpenNode {
 					type_: crate::OpenNodeType::Table(..),
@@ -208,7 +220,17 @@ pub fn parse<'a>(
 					type_: crate::OpenNodeType::Template { .. },
 					..
 				}) => {
-					crate::template::parse_template_separator(&mut state);
+					// If we find a table row separator inside a template, we close the template implicitly before processing the table row.
+					// See above for a detailed explanation
+					if state.get_byte(state.scan_position + 1) == Some(b'-') {
+						super::template::close_template_implicitly(
+                            &mut state,
+                            super::WarningMessage::UnexpectedTableRowSeparatorInsideTemplate,
+                        );
+						super::table::parse_inline_token(&mut state);
+					} else {
+						super::template::parse_template_separator(&mut state);
+					}
 				}
 				_ => state.scan_position += 1,
 			},
