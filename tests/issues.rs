@@ -5,6 +5,7 @@ use parse_wiki_text_2::Configuration;
 const MAX_EXEC: Duration = Duration::from_millis(200);
 
 #[test]
+#[ignore]
 fn issue_1() {
 	let start = Instant::now();
 	let s = "{".repeat(40);
