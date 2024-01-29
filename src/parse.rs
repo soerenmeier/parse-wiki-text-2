@@ -205,7 +205,7 @@ pub fn parse<'a>(
                             &mut state,
                             super::WarningMessage::UnexpectedTableRowSeparatorInsideTemplate,
                         );
-						super::table::parse_inline_token(&mut state);
+						continue;
 					} else {
 						super::template::parse_parameter_separator(&mut state);
 					}
@@ -227,7 +227,7 @@ pub fn parse<'a>(
                             &mut state,
                             super::WarningMessage::UnexpectedTableRowSeparatorInsideTemplate,
                         );
-						super::table::parse_inline_token(&mut state);
+						continue;
 					} else {
 						super::template::parse_template_separator(&mut state);
 					}
