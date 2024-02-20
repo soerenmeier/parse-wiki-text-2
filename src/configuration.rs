@@ -151,8 +151,8 @@ impl crate::Configuration {
 
 	/// Parses wiki text into structured data.
 	#[must_use]
-	pub fn parse<'a>(&self, wiki_text: &'a str) -> crate::Output<'a> {
-		crate::parse::parse(self, wiki_text)
+	pub fn parse<'a>(&self, wiki_text: &'a str, max_ms: u128) -> Result<crate::Output<'a>, &'static str> {
+		crate::parse::parse(self, wiki_text, max_ms)
 	}
 }
 

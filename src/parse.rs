@@ -6,7 +6,8 @@
 pub fn parse<'a>(
 	configuration: &crate::Configuration,
 	wiki_text: &'a str,
-) -> crate::Output<'a> {
+	max_ms: u128,
+) -> Result<crate::Output<'a>, &'static str> {
 	let mut state = crate::State {
 		flushed_position: 0,
 		nodes: vec![],
@@ -47,6 +48,9 @@ pub fn parse<'a>(
 			}
 		}
 	}
+	let mut loopCounter = 0;
+	let startTime = std::time::Instant::now();
+
 	crate::line::parse_beginning_of_line(&mut state, None);
 	loop {
 		match state.get_byte(state.scan_position) {
@@ -223,11 +227,20 @@ pub fn parse<'a>(
 				state.scan_position += 1;
 			}
 		}
+
+		if loopCounter == 10000 {
+			loopCounter = 0;
+			if startTime.elapsed().as_millis() > max_ms {
+				return Err("Max ms exceeded")
+			}
+		}
+
+		loopCounter+=1;
 	}
 	let end_position = state.skip_whitespace_backwards(wiki_text.len());
 	state.flush(end_position);
-	crate::Output {
+	Ok(crate::Output {
 		nodes: state.nodes,
 		warnings: state.warnings,
-	}
+	})
 }
