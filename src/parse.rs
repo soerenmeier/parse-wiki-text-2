@@ -48,8 +48,8 @@ pub fn parse<'a>(
 			}
 		}
 	}
-	let mut loopCounter = 0;
-	let startTime = std::time::Instant::now();
+	let mut loop_counter = 0;
+	let start_time = std::time::Instant::now();
 
 	crate::line::parse_beginning_of_line(&mut state, None);
 	loop {
@@ -228,14 +228,14 @@ pub fn parse<'a>(
 			}
 		}
 
-		if loopCounter == 10000 {
-			loopCounter = 0;
-			if startTime.elapsed().as_millis() > max_ms {
+		if loop_counter == 10000 {
+			loop_counter = 0;
+			if start_time.elapsed().as_millis() > max_ms {
 				return Err("Max ms exceeded")
 			}
 		}
 
-		loopCounter+=1;
+		loop_counter+=1;
 	}
 	let end_position = state.skip_whitespace_backwards(wiki_text.len());
 	state.flush(end_position);
