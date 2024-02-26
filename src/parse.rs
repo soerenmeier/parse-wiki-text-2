@@ -2,12 +2,18 @@
 // This is free software distributed under the terms specified in
 // the file LICENSE at the top-level directory of this distribution.
 
+#[derive(Debug)]
+pub enum ParseError {
+	TimedOut { execution_time: std::time::Duration }
+}
+
+
 #[must_use]
 pub fn parse<'a>(
 	configuration: &crate::Configuration,
 	wiki_text: &'a str,
-	max_ms: u128,
-) -> Result<crate::Output<'a>, &'static str> {
+	max_duration: std::time::Duration,
+) -> Result<crate::Output<'a>, ParseError> {
 	let mut state = crate::State {
 		flushed_position: 0,
 		nodes: vec![],
@@ -228,14 +234,18 @@ pub fn parse<'a>(
 			}
 		}
 
-		if loop_counter == 10000 {
-			loop_counter = 0;
-			if start_time.elapsed().as_millis() > max_ms {
-				return Err("Max ms exceeded")
+		if !max_duration.is_zero() {
+			if loop_counter == 10000 {
+				loop_counter = 0;
+				if start_time.elapsed() > max_duration {
+					return Err(ParseError::TimedOut {
+						execution_time: start_time.elapsed(),
+					});
+				}
 			}
 		}
 
-		loop_counter+=1;
+		loop_counter += 1;
 	}
 	let end_position = state.skip_whitespace_backwards(wiki_text.len());
 	state.flush(end_position);

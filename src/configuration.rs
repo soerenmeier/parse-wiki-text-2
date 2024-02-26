@@ -149,10 +149,21 @@ impl crate::Configuration {
 		configuration
 	}
 
-	/// Parses wiki text into structured data.
+	/// Parses wiki text into structured data with a user defined timeout.
 	#[must_use]
-	pub fn parse<'a>(&self, wiki_text: &'a str, max_ms: u128) -> Result<crate::Output<'a>, &'static str> {
-		crate::parse::parse(self, wiki_text, max_ms)
+	pub fn parse_with_timeout<'a>(&self, wiki_text: &'a str, max_duration: std::time::Duration) -> Result<crate::Output<'a>, crate::parse::ParseError> {
+		crate::parse::parse(self, wiki_text, max_duration)
+	}
+	/// Parses wiki text into structured data with a default timeout of 5 seconds.
+	#[must_use]
+	pub fn parse<'a>(&self, wiki_text: &'a str) -> crate::Output<'a> {
+		crate::parse::parse(self, wiki_text, std::time::Duration::from_secs(5)).unwrap()
+	}
+	/// Parses wiki text into structured data with no time out.
+	/// This function may run for extremely long lengths of time on certain articles
+	#[must_use]
+	pub fn parse_without_timeout<'a>(&self, wiki_text: &'a str) -> Result<crate::Output<'a>, crate::parse::ParseError> {
+		crate::parse::parse(self, wiki_text, std::time::Duration::ZERO)
 	}
 }
 
