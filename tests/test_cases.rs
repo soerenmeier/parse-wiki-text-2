@@ -84,7 +84,7 @@ fn test_file(path: &str) {
 	let cfg = Configuration::default();
 
 	for case in &mut cases {
-		let res = cfg.parse(&case.case);
+		let res = cfg.parse(&case.case).unwrap();
 		let expected_nodes = res.nodes.to_test_str();
 		let expected_warnings = res.warnings.to_test_str();
 

@@ -2,18 +2,26 @@
 // This is free software distributed under the terms specified in
 // the file LICENSE at the top-level directory of this distribution.
 
+/// Get's returned if the parsing received an unrecoverable error.
+///
+/// At the moment, the only error that can occur is a timeout.
 #[derive(Debug)]
-pub enum ParseError {
-	TimedOut { execution_time: std::time::Duration }
+pub enum ParseError<'a> {
+	/// The parsing took too long and was aborted.
+	TimedOut {
+		/// The time the parsing took before it was aborted.
+		execution_time: std::time::Duration,
+		/// The output that was generated before the parsing was aborted.
+		output: crate::Output<'a>,
+	},
 }
-
 
 #[must_use]
 pub fn parse<'a>(
 	configuration: &crate::Configuration,
 	wiki_text: &'a str,
 	max_duration: std::time::Duration,
-) -> Result<crate::Output<'a>, ParseError> {
+) -> Result<crate::Output<'a>, ParseError<'a>> {
 	let mut state = crate::State {
 		flushed_position: 0,
 		nodes: vec![],
@@ -234,19 +242,24 @@ pub fn parse<'a>(
 			}
 		}
 
-		if !max_duration.is_zero() {
-			if loop_counter == 10000 {
-				loop_counter = 0;
-				if start_time.elapsed() > max_duration {
-					return Err(ParseError::TimedOut {
-						execution_time: start_time.elapsed(),
-					});
-				}
+		if !max_duration.is_zero() && loop_counter == 10_000 {
+			loop_counter = 0;
+			if start_time.elapsed() > max_duration {
+				state.flush(state.scan_position);
+
+				return Err(ParseError::TimedOut {
+					execution_time: start_time.elapsed(),
+					output: crate::Output {
+						nodes: state.nodes,
+						warnings: state.warnings,
+					},
+				});
 			}
 		}
 
 		loop_counter += 1;
 	}
+
 	let end_position = state.skip_whitespace_backwards(wiki_text.len());
 	state.flush(end_position);
 	Ok(crate::Output {
