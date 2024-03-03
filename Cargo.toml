@@ -9,7 +9,7 @@ license-file = "LICENSE"
 name = "parse-wiki-text-2"
 readme = "readme.md"
 repository = "https://github.com/soerenmeier/parse-wiki-text-2"
-version = "0.1.6-alpha.0"
+version = "0.2.0"
 rust-version = "1.65"
 
 [dev-dependencies]
