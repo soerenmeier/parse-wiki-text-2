@@ -1,18 +1,32 @@
-use std::time::{Duration, Instant};
+use std::time::Duration;
 
-use parse_wiki_text_2::Configuration;
+use parse_wiki_text_2::{Configuration, ParseError};
 
 const MAX_EXEC: Duration = Duration::from_millis(200);
 
 #[test]
-#[ignore]
 fn issue_1() {
-	let start = Instant::now();
 	let s = "{".repeat(40);
-	let _ = Configuration::default().parse(&s);
+	let r = Configuration::default().parse_with_timeout(&s, MAX_EXEC);
 
-	eprintln!("elapsed {}ms", start.elapsed().as_millis());
-	if start.elapsed() > MAX_EXEC {
-		panic!("long recursion took {}ms", start.elapsed().as_millis());
+	// todo fix this so we don't get an error
+	match r {
+		Err(ParseError::TimedOut {
+			execution_time,
+			output,
+		}) => {
+			let dif = execution_time - MAX_EXEC;
+			assert!(
+				dif < Duration::from_millis(10),
+				"expected timeout to be within 10ms of MAX_EXEC, got {:?}",
+				dif
+			);
+
+			assert!(
+				!output.warnings.is_empty(),
+				"expected warnings to be present"
+			)
+		}
+		_ => panic!("expected timeout"),
 	}
 }

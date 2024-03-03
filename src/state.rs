@@ -83,7 +83,7 @@ impl<'a> State<'a> {
 	}
 
 	pub fn get_byte(&self, position: usize) -> Option<u8> {
-		self.wiki_text.as_bytes().get(position).cloned()
+		self.wiki_text.as_bytes().get(position).copied()
 	}
 
 	pub fn push_open_node(

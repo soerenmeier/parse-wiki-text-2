@@ -85,7 +85,7 @@
 //!		*Speed\n\
 //!		*Ergonomics\
 //! ";
-//! let result = Configuration::default().parse(wiki_text);
+//! let result = Configuration::default().parse(wiki_text).expect("parsing timed out");
 //! assert!(result.warnings.is_empty());
 //! # let mut found = false;
 //! for node in result.nodes {
@@ -132,6 +132,7 @@ mod warning;
 
 pub use configuration::ConfigurationSource;
 use configuration::Namespace;
+pub use parse::ParseError;
 use state::{OpenNode, OpenNodeType, State};
 use std::{
 	borrow::Cow,
