@@ -63,6 +63,9 @@ pub fn parse<'a>(
 		}
 	}
 	let mut loop_counter = 0;
+	#[cfg(feature = "wasm")]
+	let start_time = web_time::Instant::now();
+	#[cfg(not(feature = "wasm"))]
 	let start_time = std::time::Instant::now();
 
 	crate::line::parse_beginning_of_line(&mut state, None);
