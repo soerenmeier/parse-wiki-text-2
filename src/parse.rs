@@ -245,7 +245,7 @@ pub fn parse<'a>(
 		if !max_duration.is_zero() && loop_counter == 10_000 {
 			loop_counter = 0;
 			if start_time.elapsed() > max_duration {
-				state.flush(state.scan_position);
+				state.flush(state.previous_char_boundary(state.scan_position));
 
 				return Err(ParseError::TimedOut {
 					execution_time: start_time.elapsed(),

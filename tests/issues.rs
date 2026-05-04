@@ -30,3 +30,18 @@ fn issue_1() {
 		_ => panic!("expected timeout"),
 	}
 }
+
+#[test]
+fn timeout_while_scanning_multibyte_text_does_not_panic() {
+	let s = "н".repeat(100_000);
+	let result = std::panic::catch_unwind(|| {
+		Configuration::default().parse_with_timeout(&s, Duration::from_nanos(1))
+	});
+
+	let result =
+		result.expect("parser panicked on a non-UTF-8-boundary byte offset");
+	assert!(
+		matches!(result, Err(ParseError::TimedOut { .. })),
+		"expected timeout, got {result:?}"
+	);
+}
