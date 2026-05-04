@@ -140,6 +140,10 @@ impl<'a> State<'a> {
 	pub fn skip_whitespace_forwards(&self, position: usize) -> usize {
 		skip_whitespace_forwards(self.wiki_text, position)
 	}
+
+	pub fn previous_char_boundary(&self, position: usize) -> usize {
+		previous_char_boundary(self.wiki_text, position)
+	}
 }
 
 pub fn flush<'a>(
@@ -180,9 +184,26 @@ pub fn skip_whitespace_forwards(wiki_text: &str, position: usize) -> usize {
 	position + non_whitespace_position
 }
 
+fn previous_char_boundary(wiki_text: &str, mut position: usize) -> usize {
+	position = position.min(wiki_text.len());
+	while !wiki_text.is_char_boundary(position) {
+		position -= 1;
+	}
+	position
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;
+
+	#[test]
+	fn test_previous_char_boundary() {
+		assert_eq!(previous_char_boundary("aн", 0), 0);
+		assert_eq!(previous_char_boundary("aн", 1), 1);
+		assert_eq!(previous_char_boundary("aн", 2), 1);
+		assert_eq!(previous_char_boundary("aн", 3), 3);
+		assert_eq!(previous_char_boundary("aн", 4), 3);
+	}
 
 	#[test]
 	fn test_skip_whitespace_backwards() {
