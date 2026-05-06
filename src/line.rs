@@ -229,16 +229,14 @@ fn parse_preformatted_end_of_line(state: &mut crate::State) {
 				}
 				Some(b'|')
 					if state.get_byte(position + 1) == Some(b'}')
-						&& state.stack.len() > 1 && match state
-						.stack
-						.get(state.stack.len() - 2)
-					{
-						Some(crate::OpenNode {
-							type_: crate::OpenNodeType::Table { .. },
-							..
-						}) => true,
-						_ => false,
-					} =>
+						&& state.stack.len() > 1
+						&& match state.stack.get(state.stack.len() - 2) {
+							Some(crate::OpenNode {
+								type_: crate::OpenNodeType::Table { .. },
+								..
+							}) => true,
+							_ => false,
+						} =>
 				{
 					break;
 				}

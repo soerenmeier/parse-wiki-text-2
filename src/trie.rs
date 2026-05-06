@@ -162,7 +162,7 @@ impl<T: Copy> Trie<T> {
 							continue 'outer;
 						}
 						State::Final(payload) => {
-							return Ok((position + 1, payload))
+							return Ok((position + 1, payload));
 						}
 					}
 				}
