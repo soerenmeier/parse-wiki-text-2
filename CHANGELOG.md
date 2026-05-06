@@ -1,6 +1,7 @@
 ## Not released
 
 - Bump msrv to 1.90 and edition to 2024.
+- add wasm features allowing this crate to run in the browser.
 
 ## 0.2.0
 
