@@ -53,3 +53,11 @@ warn: []
 case: <nowiki>}}</nowiki>
 node: [Tag(nowiki, [Text(}})])]
 warn: []
+
+case: Before <nowiki>{{x}}</nowiki> after
+node: [Text(Before ), Tag(nowiki, [Text({{x}})]), Text( after)]
+warn: []
+
+case: Before <math>x^2</math> after
+node: [Text(Before ), Tag(math, [Text(x^2)]), Text( after)]
+warn: []

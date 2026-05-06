@@ -311,6 +311,7 @@ fn parse_plain_text_end_tag<'a>(
 		} else {
 			vec![]
 		};
+		state.flush(position_before_start_tag);
 		state.flushed_position = position_after_end_tag;
 		state.scan_position = position_after_end_tag;
 		state.nodes.push(crate::Node::Tag {
