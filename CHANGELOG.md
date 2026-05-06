@@ -3,6 +3,7 @@
 - Bump msrv to 1.90 and edition to 2024.
 - add wasm features allowing this crate to run in the browser.
 - fix: text preceding `<nowiki>` and `<math>` tags was dropped from the output.
+- recognize the MediaWiki transclusion control tags `<onlyinclude>`, `<includeonly>` and `<noinclude>` in the default configuration.
 
 ## 0.2.0
 

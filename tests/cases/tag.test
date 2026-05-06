@@ -189,3 +189,19 @@ warn: []
 case: alpha<b>
 node: [Text(alpha), StartTag(b)]
 warn: []
+
+case: <onlyinclude>alpha</onlyinclude>
+node: [Tag(onlyinclude, [Text(alpha)])]
+warn: []
+
+case: <includeonly>alpha</includeonly>
+node: [Tag(includeonly, [Text(alpha)])]
+warn: []
+
+case: <noinclude>alpha</noinclude>
+node: [Tag(noinclude, [Text(alpha)])]
+warn: []
+
+case: <onlyinclude>{{#invoke:sports table|main|style=WDL}}</onlyinclude>
+node: [Tag(onlyinclude, [Template([Text(#invoke:sports table)], [Parameter(, [Text(main)]), Parameter([Text(style)], [Text(WDL)])])])]
+warn: []
